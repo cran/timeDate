@@ -1,5 +1,5 @@
 Package: timeDate
-Version: 280.79
+Version: 280.80
 Date: 1997 - 2008
 Title: Rmetrics - Chronological and Calendarical Objects
 Author: Diethelm Wuertz, Yohan Chalabi
@@ -13,4 +13,4 @@ LazyLoad: yes
 LazyData: yes
 License: GPL (>= 2)
 URL: http://www.rmetrics.org
-Packaged: Fri Oct 24 12:02:08 2008; yankee
+Packaged: Mon Oct 27 16:34:58 2008; yankee

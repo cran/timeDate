@@ -107,6 +107,7 @@ test.dayOfWeek <-
     function()
 {
     # Day of Week:
+    setRmetricsOptions(myFinCenter = "GMT")
     tS = timeSequence(from = Easter(2006)-7*24*3600, length.out = 8)
     DOW = dayOfWeek(tS)
     current = c("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
@@ -124,6 +125,7 @@ test.holidayNYSE <-
     function()
 {
     # NYSE Business Days - Dates:
+    setRmetricsOptions(myFinCenter = "GMT")
     NYSE = holidayNYSE(2006)
     charvec = c(
         "2006-01-02", "2006-01-16", "2006-02-20", "2006-04-14", "2006-05-29",
@@ -189,6 +191,7 @@ test.subset <-
     function()
 {
     # Holidays:
+    setRmetricsOptions(myFinCenter = "GMT")
     tS = timeSequence(from = Easter(2006)-7*24*3600, length.out = 8)
 
     # [ - Subsetting:
@@ -207,6 +210,7 @@ test.cut <-
     function()
 {
     # Holidays:
+    setRmetricsOptions(myFinCenter = "GMT")
     tS = timeSequence(from = Easter(2006)-7*24*3600, length.out = 8)
 
     # cut -
@@ -235,6 +239,7 @@ test.start <-
     function()
 {
     # start -
+    setRmetricsOptions(myFinCenter = "GMT")
     tS = timeCalendar(getRmetricsOptions("currentYear"))
     target = start(tS)
     print(target)
