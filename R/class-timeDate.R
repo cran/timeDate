@@ -1,16 +1,16 @@
 
-# This library is free software; you can redistribute it and/or
+# This R package is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Library General Public
 # License as published by the Free Software Foundation; either
 # version 2 of the License, or (at your option) any later version.
 #
-# This library is distributed in the hope that it will be useful,
+# This R package is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU Library General Public License for more details.
 #
 # You should have received a copy of the GNU Library General
-# Public License along with this library; if not, write to the
+# Public License along with this R package; if not, write to the
 # Free Foundation, Inc., 59 Temple Place, Suite 330, Boston,
 # MA  02111-1307  USA
 
@@ -47,9 +47,40 @@ setClass("timeDate",
          validity = function(object) {
              if(!identical(attr(object@Data, "tzone"), "GMT"))
                  return("@Data must be in \"GMT\" timezone.")
+             if(!is.numeric(unclass(object@Data)))
+                 return("unclass(@Data) should be of class \"numeric\".")
              ## else TRUE
              TRUE
          })
+
+# ------------------------------------------------------------------------------
+
+setMethod("initialize", "timeDate", function(.Object, ...)
+      {
+          .Object <- callNextMethod()
+
+          # ISO Date/Time Format:
+          isoDate   <- "%Y-%m-%d"
+          isoFormat <- "%Y-%m-%d %H:%M:%S"
+
+          # extract numerical value
+          num <- c(unclass(.Object@Data))
+
+          if (all(is.na(num))) {
+              # no need to look for a format if @Data has only NA's
+              .Object@format <- character(1)
+          } else {
+
+              # convert - DST
+              num <- .formatFinCenterNum(num, .Object@FinCenter, "gmt2any")
+
+              # check if num is a multiple of days
+              test <- !(abs(num %% 86400) > 0)
+              .Object@format <- ifelse(all(na.omit(test)), isoDate, isoFormat)
+          }
+
+          .Object
+      })
 
 ################################################################################
 

@@ -1,16 +1,16 @@
 
-# This library is free software; you can redistribute it and/or
+# This R package is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Library General Public
 # License as published by the Free Software Foundation; either
 # version 2 of the License, or (at your option) any later version.
 #
-# This library is distributed in the hope that it will be useful,
+# This R package is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU Library General Public License for more details.
 #
 # You should have received a copy of the GNU Library General
-# Public License along with this library; if not, write to the
+# Public License along with this R package; if not, write to the
 # Free Foundation, Inc., 59 Temple Place, Suite 330, Boston,
 # MA  02111-1307  USA
 
@@ -120,7 +120,6 @@ seq.timeDate <-
 {
 
     # This function is the same as seq.POSIXt form the base package.
-    # The copyright remains then to the authors of seq.POSIXt
 
     # Modifications by Yohan Chalabi marked with ##
 
@@ -176,8 +175,7 @@ seq.timeDate <-
         from <- unclass(cfrom)
         to <- unclass(as.POSIXct(to))
         res <- seq.int(from, to, length.out = length.out)
-        return(timeDate(structure(res, class = c("POSIXt", "POSIXct"), ##
-                                  tzone = tz), zone = zone, FinCenter = FinCenter))
+        return(timeDate(res, zone = zone, FinCenter = FinCenter)) ##
     }
     if (length(by) != 1)
         stop("'by' must be of length 1")
@@ -216,8 +214,7 @@ seq.timeDate <-
             to <- unclass(as.POSIXct(to))
             res <- seq.int(0, to - from, by) + from
         }
-        return(timeDate(structure(res, class = c("POSIXt", "POSIXct"), ##
-                                  tzone = tz), zone = zone, FinCenter = FinCenter))
+        return(timeDate(res, zone = zone, FinCenter = FinCenter)) ##
     }
     else {
         r1 <- as.POSIXlt(from)
@@ -257,7 +254,7 @@ seq.timeDate <-
             if (!missing(to))
                 res <- res[res <= as.POSIXct(to)]
         }
-        return(timeDate(res, zone = zone, FinCenter = FinCenter))
+        return(timeDate(res, zone = zone, FinCenter = FinCenter)) ##
     }
 }
 

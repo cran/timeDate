@@ -1,16 +1,16 @@
 
-# This library is free software; you can redistribute it and/or
+# This R package is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Library General Public
 # License as published by the Free Software Foundation; either
 # version 2 of the License, or (at your option) any later version.
 #
-# This library is distributed in the hope that it will be useful,
+# This R package is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU Library General Public License for more details.
 #
 # You should have received a copy of the GNU Library General
-# Public License along with this library; if not, write to the
+# Public License along with this R package; if not, write to the
 # Free Foundation, Inc., 59 Temple Place, Suite 330, Boston,
 # MA  02111-1307  USA
 
@@ -59,26 +59,12 @@ c.timeDate <-
 
     # FUNCTION:
 
-    # List all:
+     # List all:
     z = list(...)
 
-    # Convert to GMT character vectors:
-    all = NULL
-    for (i in 1:length(z)) {
-        # DW added if:
-        if (length(z[[i]]) > 0) {
-            new = format(timeDate(z[[i]], zone = z[[i]]@FinCenter,
-                FinCenter = "GMT")@Data, "%Y-%m-%d %H:%M:%S")
-            all = c(all, new)
-        }
-    }
-
-    # Convert to Financial Center of the first element:
-    ans = timeDate(all, zone = "GMT", FinCenter = z[[1]]@FinCenter)
-
-    # Return Value:
-    ans
-}
+    data <- unlist(lapply(z, function(td) c(as.numeric(td, unit = "secs"))))
+    timeDate(data, zone = "GMT", FinCenter = z[[1]]@FinCenter)
+ }
 
 
 ################################################################################

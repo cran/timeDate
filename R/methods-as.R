@@ -1,16 +1,16 @@
 
-# This library is free software; you can redistribute it and/or
+# This R package is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Library General Public
 # License as published by the Free Software Foundation; either
 # version 2 of the License, or (at your option) any later version.
 #
-# This library is distributed in the hope that it will be useful,
+# This R package is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU Library General Public License for more details.
 #
 # You should have received a copy of the GNU Library General
-# Public License along with this library; if not, write to the
+# Public License along with this R package; if not, write to the
 # Free Foundation, Inc., 59 Temple Place, Suite 330, Boston,
 # MA  02111-1307  USA
 
@@ -29,6 +29,10 @@
 
 ################################################################################
 # METHOD:                   DESCRIPTION:
+#  as.timeDate               Implements Use Method
+#  as.timeDate.default       Default Method
+#  as.timeDate.POSIXt        Returns a 'POSIXt' object as 'timeDate' object
+#  as.timeDate.Date          Returns a 'Date' object as 'timeDate' object
 #  as.character.timeDate     Returns a 'timeDate' object as 'character' string
 #  as.double.timeDate        Returns a 'timeDate' object as 'numeric' object
 #  as.data.frame.timeDate    Returns a 'timeDate' object as 'data.frame' object
@@ -37,6 +41,111 @@
 #  as.POSIXlt.timeDate       Returns a 'timeDate' object as 'POSIXlt' object
 #  as.Date.timeDate          Returns a 'timeDate' object as 'Date' object
 ################################################################################
+
+as.timeDate <-
+    function(x, zone = NULL, FinCenter = NULL)
+{
+    UseMethod("as.timeDate")
+}
+
+# ------------------------------------------------------------------------------
+
+as.timeDate.default <-
+    function(x, zone = "", FinCenter = "")
+{
+    # A function implemented by Diethelm Wuertz
+
+    # Description:
+    #   Returns default object as 'timeDate' object
+
+    # Arguments:
+    #   x - a 'timeDate' object
+
+    # Value:
+    #   Returns 'x' as a 'timeDate' object.
+
+    # FUNCTION:
+
+    # as timeDate:
+    if (zone == "")
+        zone <- getRmetricsOptions("myFinCenter")
+    if (FinCenter == "")
+        FinCenter <- getRmetricsOptions("myFinCenter")
+
+    # Return Value:
+    timeDate(as.character(x), zone = zone, FinCenter = FinCenter)
+}
+
+setAs("ANY", "timeDate", function(from) as.timeDate.default(from))
+
+# ------------------------------------------------------------------------------
+
+as.timeDate.timeDate <-
+    function(x, zone = x@FinCenter, FinCenter = "")
+{
+    # A function implemented by Diethelm Wuertz
+
+    # Description:
+    #   Returns default object as 'timeDate' object
+
+    # Arguments:
+    #   x - a 'timeDate' object
+
+    # Value:
+    #   Returns 'x' as a 'timeDate' object.
+
+    stopifnot(is(x, "timeDate"))
+
+    if (FinCenter == "")
+        FinCenter <- getRmetricsOptions("myFinCenter")
+    if (zone != x@FinCenter)
+        warning("argument zone is ignored and FinCenter\n of timeDate is used as zone")
+    ## FIXME : and now?   'zone' is *NOT* ignored!
+
+    # Return as timeDate:
+    timeDate(as.character(x), zone = zone, FinCenter = FinCenter)
+}
+
+# setAs("timeDate", "timeDate", function(from) as.timeDate.timeDate(from))
+
+# ------------------------------------------------------------------------------
+
+
+as.timeDate.Date <- function(x, zone = "", FinCenter = "")
+{
+    # A function implemented by Diethelm Wuertz
+
+    # Description:
+    #   Returns a 'Date' object as 'timeDate' object
+
+    # Arguments:
+    #   x - a 'Date' (or 'POSIXt') object
+
+    # Value:
+    #   Returns 'x' as  timeDate object.
+
+    # FUNCTION:
+    if (zone == "")
+        zone <- getRmetricsOptions("myFinCenter")
+    if (FinCenter == "")
+        FinCenter <- getRmetricsOptions("myFinCenter")
+
+    # Return as timeDate:
+    timeDate(x, zone = zone, FinCenter = FinCenter)
+}
+
+setAs("Date", "timeDate", function(from) as.timeDate.Date(from))
+
+# ------------------------------------------------------------------------------
+
+as.timeDate.POSIXt <- function(x, zone = "", FinCenter = "")
+{
+    timeDate(x, zone = zone, FinCenter = FinCenter)
+}
+
+setAs("POSIXt", "timeDate", function(from) as.timeDate.POSIXt(from))
+
+# ------------------------------------------------------------------------------
 
 as.character.timeDate <- function(x, ...) format(x, ...)
 
@@ -64,20 +173,23 @@ as.double.timeDate <-
 
     # FUNCTION:
 
-    # as double:
-    ct = timeDate(x, zone = x@FinCenter, FinCenter = "GMT")@Data
+    units <- match.arg(units)
+
+    ct = as.POSIXct(x)
     origin = as.POSIXct("1970-01-01", tz = "GMT")
-    dt = difftime(ct, origin, units = units)
-    units = attr(dt, "units")
-    ans = as.double(difftime(ct, origin, units = units))
-    attr(ans, "FinCenter")<-"GMT"
-    attr(ans, "units")<-units
-    if (units == "secs")
-        attr(ans, "origin")<-"1970-01-01 00:00:00 GMT"
-    if (units == "mins" | units == "hours")
-        attr(ans, "origin")<-"1970-01-01 00:00 GMT"
-    if (units == "days" | units == "weeks")
-        attr(ans, "origin")<-"1970-01-01 GMT"
+    dt = difftime(ct, origin, tz = "GMT", units = units)
+    ans = as.double(dt)
+
+    units <- attr(dt, "units")
+    attr(ans, "FinCenter") <- "GMT"
+    attr(ans, "units") <- units
+    attr(ans, "origin") <-
+        switch(units,
+               secs  = "1970-01-01 00:00:00 GMT",
+               mins  = "1970-01-01 00:00 GMT",
+               hours = "1970-01-01 00:00 GMT",
+               days  = "1970-01-01 GMT",
+               weeks = "1970-01-01 GMT")
 
     # Return Value:
     ans
@@ -241,23 +353,30 @@ as.Date.timeDate <-
 
     # as Date:
     method = match.arg(method)
-    if (method == "trunc") {
-        ans = as.Date(as.POSIXct(trunc(x)), ...)
-    } else if (method == "round") {
-        ans = as.Date(as.POSIXct(round(x)), ...)
-    } else if (method  == "next") {
-        ans = as.Date(as.POSIXct(trunc(x)), ...) + 1
-    }
+
+    ###  # Note: one must be careful when converting to Date with tzone.
+    ###  td <- timeDate("2008-12-11 00:00:01", zone = "Zurich", FinCenter = "Zurich")
+    ###  ct <- td@Data
+    ###  attr(ct, "tzone") <- "Europe/Zurich"
+    ###  # ct and td should be identical
+    ###  ct; td
+    ###  # but
+    ###  as.Date(ct) # trunc on previous day because trunc in GMT
+    ###  as.Date(td) # trunc in the current FinCenter !
+
+    ans <- switch(method,
+                  trunc = as.Date(format(trunc(x)), ...),
+                  round = as.Date(format(round(x)), ...),
+                  "next" = as.Date(format(trunc(x)), ...) + 1)
 
     # Add Attribute:
-    attr(ans, "control")<-c(method = method, FinCenter = x@FinCenter)
+    attr(ans, "control") <- c(method = method, FinCenter = x@FinCenter)
 
     # Return Value:
     ans
 }
 
-# in the method signature for function "coerce" no definition for class: “Date”
-# setAs("timeDate", "Date", function(from) as.Date.timeDate(from))
+setAs("timeDate", "Date", function(from) as.Date.timeDate(from))
 
 ################################################################################
 

@@ -1,9 +1,10 @@
 Package: timeDate
-Version: 290.81
+Version: 290.82
 Date: 1997 - 2008
 Title: Rmetrics - Chronological and Calendarical Objects
 Author: Diethelm Wuertz, Yohan Chalabi
 Depends: R (>= 2.6.0), graphics, utils, stats, methods
+Suggests: RUnit
 Maintainer: Rmetrics Core Team <Rmetrics-core@r-project.org>
 Description: Environment for teaching "Financial Engineering and
         Computational Finance"
@@ -14,4 +15,4 @@ LazyLoad: yes
 LazyData: yes
 License: GPL (>= 2)
 URL: http://www.rmetrics.org
-Packaged: Wed Nov 19 19:38:38 2008; yankee
+Packaged: Wed Jan 28 13:30:42 2009; yankee
