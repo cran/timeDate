@@ -45,7 +45,7 @@ whichFormat <-
     charvec = as.character(charvec)
 
     # Specifications:
-    NCHAR = mean(nchar(charvec))
+    # NCHAR = mean(nchar(charvec)) # YC : why NCHAR is calculated twice ?
     NCHAR = nchar(charvec[1])
     SUBSTR = (substring(charvec[1], 5, 5) == "-")
 
@@ -73,7 +73,7 @@ whichFormat <-
 
     # Otherwise:
     if (!silent)
-    warning("Could not determine time(date) format")
+        warning("character string is not in a standard unambiguous format")
 
     # Return Value:
     "unknown"
