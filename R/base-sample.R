@@ -9,29 +9,33 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU Library General Public License for more details.
 #
-# You should have received A copy of the GNU Library General
+# You should have received a copy of the GNU Library General
 # Public License along with this R package; if not, write to the
 # Free Foundation, Inc., 59 Temple Place, Suite 330, Boston,
 # MA  02111-1307  USA
 
 
 ################################################################################
+# MEHODS:                   DESCRIPTION:
+#  sample.timeDate           Resamples a 'timeDate' object
+################################################################################
 
-setGeneric("align", function(x, ...) standardGeneric("align"))
 
-setGeneric("atoms", function(x, ...) standardGeneric("atoms"))
+setMethod("sample", "timeDate",
+    function(x, size, replace = FALSE, prob = NULL)
+{
+    # A function implemented by Diethelm Wuertz and Yohan Chalabi
 
-setGeneric("finCenter", function(x) standardGeneric("finCenter"))
+    # FUNCTION:
 
-setGeneric("finCenter<-", function(x, value) standardGeneric("finCenter<-"))
+    # Sample:
+    ct <- sample(as.POSIXct(x), size, replace, prob)
+    ans <- timeDate(ct, zone = "GMT", FinCenter = x@FinCenter)
 
-setGeneric("isDaily", function(x) standardGeneric("isDaily"))
+    # Return Value:
+    ans
+})
 
-setGeneric("isQuarterly", function(x) standardGeneric("isQuarterly"))
-
-setGeneric("isMonthly", function(x) standardGeneric("isMonthly"))
-
-setGeneric("isRegular", function(x) standardGeneric("isRegular"))
 
 ################################################################################
 

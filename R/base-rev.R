@@ -9,29 +9,38 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU Library General Public License for more details.
 #
-# You should have received A copy of the GNU Library General
+# You should have received a copy of the GNU Library General
 # Public License along with this R package; if not, write to the
 # Free Foundation, Inc., 59 Temple Place, Suite 330, Boston,
 # MA  02111-1307  USA
 
 
 ################################################################################
+# MEHODS:                   DESCRIPTION:
+#  rev.timeDate              Reverts a 'timeDate' object
+################################################################################
 
-setGeneric("align", function(x, ...) standardGeneric("align"))
 
-setGeneric("atoms", function(x, ...) standardGeneric("atoms"))
+rev.timeDate <-
+    function(x)
+{
+    # A function implemented by Diethelm Wuertz and Yohan Chalabi
 
-setGeneric("finCenter", function(x) standardGeneric("finCenter"))
+    # Description:
+    #   Reverts  a 'timeDate' vector object.
 
-setGeneric("finCenter<-", function(x, value) standardGeneric("finCenter<-"))
+    # Arguments:
+    #   x - a 'timeDate' object
 
-setGeneric("isDaily", function(x) standardGeneric("isDaily"))
+    # Value:
+    #   Returns 'x' as a 'timeDate' object in reversed order.
 
-setGeneric("isQuarterly", function(x) standardGeneric("isQuarterly"))
+    # FUNCTION:
 
-setGeneric("isMonthly", function(x) standardGeneric("isMonthly"))
+    # Return Value:
+    timeDate(rev(as.POSIXct(x)), zone = "GMT", FinCenter=x@FinCenter)
+}
 
-setGeneric("isRegular", function(x) standardGeneric("isRegular"))
 
 ################################################################################
 

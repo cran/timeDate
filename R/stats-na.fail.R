@@ -16,22 +16,19 @@
 
 
 ################################################################################
+# METHOD:                   CREATE A TIMESERIES FROM OTHER OBJECTS:
+#  is.timeSeries             Tests for a 'timeSeries' object
+################################################################################
 
-setGeneric("align", function(x, ...) standardGeneric("align"))
 
-setGeneric("atoms", function(x, ...) standardGeneric("atoms"))
+setMethod("is.na", "timeDate",
+    function(x)
+{
+    # A function implemented by Yohan Chalabi
 
-setGeneric("finCenter", function(x) standardGeneric("finCenter"))
+    is.na(x@Data)
+})
 
-setGeneric("finCenter<-", function(x, value) standardGeneric("finCenter<-"))
-
-setGeneric("isDaily", function(x) standardGeneric("isDaily"))
-
-setGeneric("isQuarterly", function(x) standardGeneric("isQuarterly"))
-
-setGeneric("isMonthly", function(x) standardGeneric("isMonthly"))
-
-setGeneric("isRegular", function(x) standardGeneric("isRegular"))
 
 ################################################################################
 

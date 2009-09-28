@@ -16,30 +16,41 @@
 
 
 ################################################################################
-# FUNCTION:                 DESCRIPTION:
-#  show.timeDate             Prints 'timeDate' object
+# METHOD:                   DESCRIPTION:
+#  months,timeDate           Extracts months atom from a 'timeDate' object
 ################################################################################
 
 
-setMethod("show", "timeDate",
-    function (object)
+setMethod("months", "timeDate",
+    function(x, abbreviate = NULL)
 {
-    # A function implemented by Yohan Chalabi and Diethelm Wuertz
-    
-    # when creating empty new("timeDate")
-    if (!length(slot(object, "Data")))
-        return(str(object))
+    # A function implemented by Diethelm Wuertz
 
-    output <- format(object)
-    layout <- paste("[", output, "]", sep = "")
+    # Description:
+    #   Extracts months atom from a timeDate object
 
-    # Print Results:
-    cat(object@FinCenter, "\n", sep = "")
-    print(layout, quote = FALSE)
+    # Arguments:
+    #   x - a 'timeDate' object from which to extract the
+    #       month "atom".
+
+    # Value:
+    #   Returns the month from a 'timeDate' object as an integer
+    #   value or vector with elements ranging between 1 and 12,
+    #   numbering the months from January to December.
+
+    # FUNCTION:
+
+    # Check Class Type:
+    if (!inherits(x, "timeDate")) stop("Wrong class type")
+
+    # Month:
+    ans = as.POSIXlt(x@Data)$mon+1
+    attr(ans, "control") = c(FinCenter = x@FinCenter)
 
     # Return Value:
-    invisible(NULL) # 'show' returns an invisible 'NULL'. (cf. ?show)
+    ans
 })
 
 
 ################################################################################
+

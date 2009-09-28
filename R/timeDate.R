@@ -14,30 +14,26 @@
 # Free Foundation, Inc., 59 Temple Place, Suite 330, Boston,
 # MA  02111-1307  USA
 
-# Copyrights (C)
-# for this R-port:
-#   1999 - 2008, Diethelm Wuertz, Rmetrics Foundation, GPL
-#   Diethelm Wuertz <wuertz@itp.phys.ethz.ch>
-#   info@rmetrics.org
-#   www.rmetrics.org
-# for the code accessed (or partly included) from other R-ports:
-#   see R's copyright and license files
-# for the code accessed (or partly included) from contributed R-ports
-# and other sources
-#   see Rmetrics's copyright file
-
 
 ################################################################################
-# FUNCTION:              DESCRIPTION:
-#  timeDate               Creates a 'timeDate' object from given dates
-#  .formatFinCenter       Internal called by timeDate
-#  strptimeDate           Creates for character time stamps a 'timeDate' object
+# FUNCTION:             DESCRIPTION:
+#  timeDate              Creates a 'timeDate' object from given dates
+#  setMethod("timeDate", "character",
+#  setMethod("timeDate", "timeDate",
+#  setMethod("timeDate", "POSIXt",
+#  setMethod("timeDate", "Date",
+#  setMethod("timeDate", "numeric",
+#  setMethod("timeDate", "missing",
+#  setMethod("timeDate", "ANY",
+# FUNCTION:
+#  .formatFinCenter      Internal called by timeDate
+#  strptimeDate          Creates for character time stamps a 'timeDate' object
 ################################################################################
+
 
 setGeneric("timeDate",
-           function(charvec, format = NULL, zone = "", FinCenter = "")
-           standardGeneric("timeDate"))
-
+    function(charvec, format = NULL, zone = "", FinCenter = "")
+{
     # A function implemented by Yohan Chalabi and Diethelm Wuertz
 
     # Description:
@@ -75,12 +71,18 @@ setGeneric("timeDate",
     #   td = timeDate("2004-01-01", FinCenter = "GMT"); timeDate(td)
     #   td = timeDate("20040101", FinCenter = "GMT"); timeDate(td)
 
+
+    standardGeneric("timeDate")
+}
+)
+
+
 # ------------------------------------------------------------------------------
 
-setMethod("timeDate", "character",
-          function(charvec, format = NULL, zone = "", FinCenter = "")
-{
 
+setMethod("timeDate", "character",
+    function(charvec, format = NULL, zone = "", FinCenter = "")
+{
     # Settings and Checks:
     if (zone == "")
         zone = getRmetricsOptions("myFinCenter")
@@ -94,41 +96,57 @@ setMethod("timeDate", "character",
     # Autodetect Format :
     if (is.null(format))
         format <- whichFormat(charvec[1])
-    if (identical(format,"unknown"))
+    if (format %in% c("unknown", "counts")) #-> "counts" catch potential problems from timeSeries
         return(timeDate(NA, zone = zone, FinCenter = FinCenter))
 
-    # if entries of charvec are not of same length, replace them with NA's
-    if (any(nc <- !(nchar(charvec) == nchar(charvec[1])))) {
-        is.na(charvec) <- nc
-        warning("'charvec' entries of different number of characters are replaced by NA's")
-    }
+    ## # if entries of charvec are not of same length, replace them with NA's
+    ## if (any(nc <- !(nchar(charvec) == nchar(charvec[1])))) {
+    ##     is.na(charvec) <- nc
+    ##     warning("'charvec' entries of different number of characters are replaced by NA's")
+    ## }
+
+    ## # YC :midnigStandard2 returns object in POSIXct which helps
+    ## # waisting time in strptime
+    ## # Midnight Standard & conversion to isoFormat:
+    ## charvec <- midnightStandard(charvec, format)
+    ## # convert to POSIXct as it is
+    ## ct <- as.POSIXct(charvec, format = isoFormat, tz="GMT")
 
     # Midnight Standard & conversion to isoFormat:
-    charvec <- midnightStandard(charvec, format)
-
-    # convert to POSIXct as it is
-    ct <- as.POSIXct(charvec, format = isoFormat, tz="GMT")
+    num <- midnightStandard2(charvec, format)
 
     ## Do conversion
     ## YC: .formatFinCenterNum faster than .formatFinCenter
-    num = .formatFinCenterNum(c(unclass(ct)), zone, type = "any2gmt")
+    # YC : uncomment following line if using midnightStandar()
+    # num <- .formatFinCenterNum(c(unclass(ct)), zone, type = "any2gmt")
+    num <- .formatFinCenterNum(num, zone, type = "any2gmt")
+
     # it is important to set manually the tzone flag,
-    Data <- as.POSIXct(num, origin = "1970-01-01", tz = "GMT")
-    attr(Data, "tzone") <- "GMT"
+    # num <- as.POSIXct(num, origin = "1970-01-01", tz = "GMT")
+
+    # faster to create manually the POSIXct object
+    # num <- structure(num, class = c("POSIXt", "POSIXct"))
+    class(num) <- c("POSIXt", "POSIXct")
+    attr(num, "tzone") <- "GMT"
 
     new("timeDate",
-        Data = as.POSIXct(Data),
+        Data = num,
         # Note format is automatically created in
         # initialize,timeDate-method
         FinCenter = as.character(FinCenter))
-})
+}
+)
+
 
 # ------------------------------------------------------------------------------
 
-## timeDate
+
 setMethod("timeDate", "timeDate",
-          function(charvec, format = NULL, zone = "", FinCenter = "")
+    function(charvec, format = NULL, zone = "", FinCenter = "")
 {
+    # Description:
+    #   timeDate
+
     # if zone not provided, change only the FinCenter in charvec (timeDate)
     if (zone == "") {
         if (FinCenter != "")
@@ -137,16 +155,49 @@ setMethod("timeDate", "timeDate",
     } else {
         callGeneric(format(charvec), zone = zone, FinCenter = FinCenter)
     }
-})
+}
+)
+
 
 # ------------------------------------------------------------------------------
 
-## POSIXt
+
 setMethod("timeDate", "POSIXt",
-          function(charvec, format = NULL, zone = "", FinCenter = "")
+    function(charvec, format = NULL, zone = "", FinCenter = "")
 {
+    # Description:
+    #   POSIXt
+
+    if (!(zone %in% c("", "GMT", "UTC"))) {
+        callGeneric(format(charvec), zone = zone, FinCenter = FinCenter)
+    } else {
+
+        # Since zone is not provided consider that charvec is in GMT
+        charvec <- as.POSIXct(charvec)
+        attr(charvec, "tzone") <- "GMT"
+
+        # FinCenter
+        if (FinCenter == "")
+            FinCenter = getRmetricsOptions("myFinCenter")
+
+        new("timeDate",
+            Data = charvec,
+            # Note format is automatically created in
+            # initialize,timeDate-method
+            FinCenter = as.character(FinCenter))
+    }
+}
+)
 
 
+# ------------------------------------------------------------------------------
+
+
+setMethod("timeDate", "Date",
+    function(charvec, format = NULL, zone = "", FinCenter = "")
+{
+    # Description:
+    #   Date
 
     if (!(zone %in% c("", "GMT", "UTC"))) {
         callGeneric(format(charvec), zone = zone, FinCenter = FinCenter)
@@ -168,47 +219,71 @@ setMethod("timeDate", "POSIXt",
     }
 })
 
-
 # ------------------------------------------------------------------------------
 
-## Date
-setMethod("timeDate", "Date",
-          function(charvec, format = NULL, zone = "", FinCenter = "")
-{
-    charvec <- format(charvec)
-    format <- "%Y-%m-%d"
-    callGeneric()
-})
 
-# ------------------------------------------------------------------------------
-
-## numeric
 setMethod("timeDate", "numeric",
-          function(charvec, format = NULL, zone = "", FinCenter = "")
+    function(charvec, format = NULL, zone = "", FinCenter = "")
 {
-      charvec <- as.POSIXct(as.numeric(charvec),
-                            origin = "1970-01-01", tz = "GMT")
-      callGeneric()
-})
+    # Description:
+    #   numeric
+
+    # DW: Modification of setMethod("timeDate", "numeric") to handle
+    #   decimal like inputs (exactly that what "yearmon" does)
+
+    if (!is.null(format) & (format == "%Y" || format == "yearmon" )) {
+        # DW: Handels what is known as yearmon format
+        # Example:     timeDate(2008+seq(0, 23, by = 1)/12, "yearmon")
+        #   Quarterly: timeDate(2008+seq(2, 23, by = 3)/12, format = "%Y")
+        # The next 4 lines are borrowed from Zeileis' yearmon()
+        year <- floor(charvec + 0.001)
+        month <- floor(12 * (charvec - year) + 1 + 0.5 + 0.001)
+        dd.start <- as.Date(paste(year, month, 1, sep = "-"))
+        # here we concentrate to the end of month date ...
+        dd.end <- dd.start + 32 - as.numeric(format(dd.start + 32, "%d"))
+        charvec <- as.POSIXct(dd.end, origin = "1970-01-01", tz = "GMT")
+    } else {
+        charvec <- as.POSIXct(charvec, origin = "1970-01-01", tz = "GMT")
+    }
+
+    callGeneric()
+}
+)
+
 
 # ------------------------------------------------------------------------------
 
-## missing
+
 setMethod("timeDate", "missing",
-          function(charvec, format = NULL, zone = "", FinCenter = "")
-    callGeneric(Sys.time(), format, zone, FinCenter))
+    function(charvec, format = NULL, zone = "", FinCenter = "")
+{
+    # Description:
+    #   missing
+
+    callGeneric(Sys.time(), format, zone, FinCenter)
+}
+)
+
 
 # ------------------------------------------------------------------------------
 
-## ANY
+
 setMethod("timeDate", "ANY",
-          function(charvec, format = NULL, zone = "", FinCenter = "")
-    callGeneric(as.character(charvec), format, zone, FinCenter))
+    function(charvec, format = NULL, zone = "", FinCenter = "")
+{
+    # Description:
+    #   ANY
+
+    callGeneric(as.character(charvec), format, zone, FinCenter)
+}
+)
+
 
 ################################################################################
 
+
 .formatFinCenterNum <-
-    function(num, FinCenter, type = c("gmt2any", "any2gmt"))
+function(num, FinCenter, type = c("gmt2any", "any2gmt"))
 {
     # A function implemented by Diethelm Wuertz and Yohan Chalabi
 
@@ -231,15 +306,20 @@ setMethod("timeDate", "ANY",
     if (inherits(try, "try-error"))
         stop(gettextf("'%s' is not a valid FinCenter.", FinCenter))
 
-    num + signum * dst.list$offSet[ findInterval(num, dst.list$numeric)]
+    offSetIdx <- findInterval(num, dst.list$numeric)
+    if (any(z <- (offSetIdx == 0))) offSetIdx[z] <- 1
+    num + signum * dst.list$offSet[offSetIdx]
 }
+
 
 # ------------------------------------------------------------------------------
 
+
 .formatFinCenter <-
-    function(charvec, FinCenter, type = c("gmt2any", "any2gmt"))
+function(charvec, FinCenter, type = c("gmt2any", "any2gmt"))
 {
     # A function implemented by Diethelm Wuertz
+    #   thanks to contributions from Martin Maechler
 
     # Description:
     #   Internal function used by function timeDate()
@@ -248,7 +328,6 @@ setMethod("timeDate", "ANY",
         return(charvec)
 
     ## else start working:
-
     type <- match.arg(type)
     signum <- switch(type,
                      "gmt2any" = +1,
@@ -305,10 +384,12 @@ setMethod("timeDate", "ANY",
     format(dt + signum * offSets, format="%Y-%m-%d %H:%M:%S")
 }
 
+
 # ------------------------------------------------------------------------------
 
+
 strptimeDate <-
-    function(x, format = whichFormat(x), tz = "")
+function(x, format = whichFormat(x), tz = "")
 {
     # A function implemented by Diethelm Wuertz
 
@@ -337,4 +418,6 @@ strptimeDate <-
     ans
 }
 
+
 ################################################################################
+

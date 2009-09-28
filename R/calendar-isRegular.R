@@ -16,30 +16,38 @@
 
 
 ################################################################################
-# FUNCTION:                 DESCRIPTION:
-#  show.timeDate             Prints 'timeDate' object
+# FUNCTION:                  DESCRIPTION:
+#  isRegular,timeDate-method  Tests if a timeDate object has regular time stamps
 ################################################################################
 
 
-setMethod("show", "timeDate",
-    function (object)
-{
-    # A function implemented by Yohan Chalabi and Diethelm Wuertz
-    
-    # when creating empty new("timeDate")
-    if (!length(slot(object, "Data")))
-        return(str(object))
 
-    output <- format(object)
-    layout <- paste("[", output, "]", sep = "")
+setMethod("isRegular", "timeDate",  function(x)
+      {
+          # A function implemented by Diethelm Wuertz
 
-    # Print Results:
-    cat(object@FinCenter, "\n", sep = "")
-    print(layout, quote = FALSE)
+          # Descriptions:
+          #   Tests if a timeDate object has regular time stamps
 
-    # Return Value:
-    invisible(NULL) # 'show' returns an invisible 'NULL'. (cf. ?show)
-})
+          # Example:
+          #   isRegular(timeSequence(by = "day", length.out = 20))
+          #   isRegular(timeCalendar())
+          #   isRegular(timeSequence(by = "hour", length.out = 100))
+
+          # Details:
+          #   Definition: A timeDate Object is a Regular timeDate object
+          #   if the timeDate object is either monthly or quarterly,
+          #   otherwise not.
+
+          # Arguments:
+          #   x - an object of class timeDate
+
+          # FUNCTION:
+
+          # Regular ?
+          (isMonthly(x) | isQuarterly(x))
+      })
 
 
 ################################################################################
+

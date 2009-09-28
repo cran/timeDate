@@ -9,29 +9,46 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU Library General Public License for more details.
 #
-# You should have received A copy of the GNU Library General
+# You should have received a copy of the GNU Library General
 # Public License along with this R package; if not, write to the
 # Free Foundation, Inc., 59 Temple Place, Suite 330, Boston,
 # MA  02111-1307  USA
 
 
 ################################################################################
+# FUNCTION:                 DESCRIPTION:
+#  dayOfWeek                 Returns the day of the week to a 'timeDate' object
+################################################################################
 
-setGeneric("align", function(x, ...) standardGeneric("align"))
 
-setGeneric("atoms", function(x, ...) standardGeneric("atoms"))
+dayOfWeek <-
+    function(x)
+{
+    # A function implemented by Diethelm Wuertz
 
-setGeneric("finCenter", function(x) standardGeneric("finCenter"))
+    # Description:
+    #   Returns day of week for time date objects
 
-setGeneric("finCenter<-", function(x, value) standardGeneric("finCenter<-"))
+    # Arguments:
+    #   x - an object of class "timeDate"
 
-setGeneric("isDaily", function(x) standardGeneric("isDaily"))
+    # Example:
+    #   weekDay(Sys.timeDate())
+    #   weekDay(timeSequence("2005-05-15", "2005-07-15"))
 
-setGeneric("isQuarterly", function(x) standardGeneric("isQuarterly"))
+    # FUNCTION:
+    stopifnot(is(x, "timeDate"))
 
-setGeneric("isMonthly", function(x) standardGeneric("isMonthly"))
+    # Get Day of Week:
+    wd = c("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
+    n = as.POSIXlt(x@Data)$wday + 1
+    wdays = wd[n]
+    names(wdays) = as.character(x@Data)
 
-setGeneric("isRegular", function(x) standardGeneric("isRegular"))
+    # Return Value:
+    wdays
+}
+
 
 ################################################################################
 

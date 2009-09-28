@@ -17,29 +17,39 @@
 
 ################################################################################
 # FUNCTION:                 DESCRIPTION:
-#  show.timeDate             Prints 'timeDate' object
+#  summary.timeDate          Summarizes details of a 'timeDate' object
 ################################################################################
 
 
-setMethod("show", "timeDate",
-    function (object)
+summary.timeDate <-
+    function(object, ...)
 {
-    # A function implemented by Yohan Chalabi and Diethelm Wuertz
-    
-    # when creating empty new("timeDate")
-    if (!length(slot(object, "Data")))
-        return(str(object))
+    # A function implemented by Diethelm Wuertz
 
-    output <- format(object)
-    layout <- paste("[", output, "]", sep = "")
+    # Description:
+    #   Summarizes details of a 'timeDate' object
 
-    # Print Results:
-    cat(object@FinCenter, "\n", sep = "")
-    print(layout, quote = FALSE)
+    # Arguments:
+    #   x - a 'timeDate' object to be summarized.
+
+    # Effect:
+    #   Produce a summary report of the details of a 'timeDate'
+    #   object.
+
+    # Print:
+    x = object
+    cat(  "Object:       ", as.character(match.call())[2])
+    cat("\nStart Record: ", as.character(start(x)))
+    cat("\nEnd Record:   ", as.character(end(x)))
+    cat("\nObservations: ", length(as.character(x)))
+    cat("\nFormat:       ", x@format)
+    cat("\nFinCenter:    ", x@FinCenter)
+    cat("\n")
 
     # Return Value:
-    invisible(NULL) # 'show' returns an invisible 'NULL'. (cf. ?show)
-})
+    invisible(object)
+}
 
 
 ################################################################################
+

@@ -1,4 +1,3 @@
-
 # This R package is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Library General Public
 # License as published by the Free Software Foundation; either
@@ -17,21 +16,25 @@
 
 ################################################################################
 
-setGeneric("align", function(x, ...) standardGeneric("align"))
 
-setGeneric("atoms", function(x, ...) standardGeneric("atoms"))
+setMethod("finCenter", "timeDate", 
+    function(x) 
+{
+    x@FinCenter
+}
+)
+   
 
-setGeneric("finCenter", function(x) standardGeneric("finCenter"))
+# ------------------------------------------------------------------------------
+ 
+    
+setMethod("finCenter<-", "timeDate", 
+    function(x, value) 
+{
+    x@FinCenter <- value; x
+}
+)
 
-setGeneric("finCenter<-", function(x, value) standardGeneric("finCenter<-"))
-
-setGeneric("isDaily", function(x) standardGeneric("isDaily"))
-
-setGeneric("isQuarterly", function(x) standardGeneric("isQuarterly"))
-
-setGeneric("isMonthly", function(x) standardGeneric("isMonthly"))
-
-setGeneric("isRegular", function(x) standardGeneric("isRegular"))
 
 ################################################################################
 

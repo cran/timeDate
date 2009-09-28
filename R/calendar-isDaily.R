@@ -16,30 +16,40 @@
 
 
 ################################################################################
-# FUNCTION:                 DESCRIPTION:
-#  show.timeDate             Prints 'timeDate' object
+# FUNCTION:                DESCRIPTION:
+#  isDaily,timeDate-method  Tests if a timeDate object has daily time stamps
 ################################################################################
 
 
-setMethod("show", "timeDate",
-    function (object)
-{
-    # A function implemented by Yohan Chalabi and Diethelm Wuertz
-    
-    # when creating empty new("timeDate")
-    if (!length(slot(object, "Data")))
-        return(str(object))
 
-    output <- format(object)
-    layout <- paste("[", output, "]", sep = "")
+setMethod("isDaily", "timeDate", function(x)
+     {
+         # A function implemented by Diethelm Wuertz
 
-    # Print Results:
-    cat(object@FinCenter, "\n", sep = "")
-    print(layout, quote = FALSE)
+         # Descriptions:
+         #   Test if a timeDate object has daily time stamps
 
-    # Return Value:
-    invisible(NULL) # 'show' returns an invisible 'NULL'. (cf. ?show)
-})
+         # Example:
+         #   isDaily(timeSequence(by = "day", length.out = 20))
+         #   isDaily(timeCalendar())
+         #   isDaily(timeSequence(by = "hour", length.out = 100))
 
+         # Details:
+         #   Definition: A timeDate Object is a Daily timeDate object
+         #   if we have not more than one date/time stamp per day.
+
+         # Arguments:
+         #   x - an object of class timeDate
+
+         # FUNCTION:
+
+         # Daily ?
+         num <- as.numeric(as.POSIXct(x))
+         daily <- seq(from = num[1], by = 60*60*24, length.out=length(num))
+
+         # Return
+         (identical(daily, num))
+     })
 
 ################################################################################
+

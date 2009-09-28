@@ -3,24 +3,10 @@
 ## import name space
 ################################################
 
-importFrom("graphics",
-           "lines",
-           "plot",
-           "points",
-           "axis.POSIXct")
-importFrom("methods",
-           "coerce",
-           "initialize",
-           "show",
-           "is",
-           "@<-",
-           "new")
-importFrom("stats",
-           "end",
-           "start",
-           "window",
-           "approx",
-           "var")
+import("graphics")
+import("utils")
+import("stats")
+import("methods")
 
 ################################################
 ## S4 classes
@@ -31,16 +17,25 @@ export("align",
         "atoms",
         "finCenter<-",
         "finCenter",
+        "isDaily",
+        "isMonthly",
+        "isQuarterly",
+        "isRegular",
         "timeDate" )
-exportMethods("-",
+exportMethods("abline",
+              "-",
               "[",
               "+",
               "coerce",
+              "frequency",
               "initialize",
               "is.na",
               "julian",
+              "lines",
               "months",
               "Ops",
+              "plot",
+              "points",
               "sample",
               "show" )
 
@@ -69,11 +64,8 @@ S3method("kurtosis", "default")
 S3method("kurtosis", "POSIXct")
 S3method("kurtosis", "POSIXlt")
 S3method("length", "timeDate")
-S3method("lines", "timeDate")
 S3method("max", "timeDate")
 S3method("min", "timeDate")
-S3method("plot", "timeDate")
-S3method("points", "timeDate")
 S3method("range", "timeDate")
 S3method("rep", "timeDate")
 S3method("rev", "timeDate")
@@ -264,6 +256,7 @@ export(
     "El_Aaiun",
     "El_Salvador",
     "Enderbury",
+    ".endpoints",
     "Epiphany",
     "Eucla",
     "Fakaofo",
@@ -314,6 +307,7 @@ export(
     "Hermosillo",
     "Hobart",
     "holiday",
+    "holidayNERC",
     "holidayNYSE",
     "holidayTSX",
     "holidayZURICH",
@@ -462,6 +456,7 @@ export(
     "Mexico_City",
     "midnightStandard",
     ".midnightStandard",
+    "midnightStandard2",
     "Midway",
     "Minsk",
     "Miquelon",
@@ -473,7 +468,6 @@ export(
     "Montevideo",
     ".month.day.year",
     "monthlyRolling",
-    ".monthlyRolling",
     "Monticello",
     "Montreal",
     "Montserrat",
@@ -516,9 +510,7 @@ export(
     "Pentecost",
     "PentecostMonday",
     "periodicallyRolling",
-    ".periodicallyRolling",
     "periods",
-    ".periods",
     "Perth",
     "Petersburg",
     "Phnom_Penh",

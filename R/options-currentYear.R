@@ -9,29 +9,39 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU Library General Public License for more details.
 #
-# You should have received A copy of the GNU Library General
+# You should have received a copy of the GNU Library General
 # Public License along with this R package; if not, write to the
 # Free Foundation, Inc., 59 Temple Place, Suite 330, Boston,
 # MA  02111-1307  USA
 
 
 ################################################################################
+# DEPRECATED:               SETTINGS:
+#  currentYear               Sets date of the current year
+#  .currentYear              Returns the the current year
+################################################################################
 
-setGeneric("align", function(x, ...) standardGeneric("align"))
 
-setGeneric("atoms", function(x, ...) standardGeneric("atoms"))
+## .currentYear <-
+##     function()
+## {
+##     # A function implemented by Diethelm Wuertz
 
-setGeneric("finCenter", function(x) standardGeneric("finCenter"))
+##     # Description:
+##     #   Sets date of the current year
 
-setGeneric("finCenter<-", function(x, value) standardGeneric("finCenter<-"))
+##     # FUNCTION:
 
-setGeneric("isDaily", function(x) standardGeneric("isDaily"))
+##     # Return current year:
+##     as.POSIXlt(Sys.time())$year + 1900
+## }
 
-setGeneric("isQuarterly", function(x) standardGeneric("isQuarterly"))
 
-setGeneric("isMonthly", function(x) standardGeneric("isMonthly"))
+# ------------------------------------------------------------------------------
 
-setGeneric("isRegular", function(x) standardGeneric("isRegular"))
+
+## currentYear <- .currentYear()
+
 
 ################################################################################
 

@@ -16,30 +16,40 @@
 
 
 ################################################################################
-# FUNCTION:                 DESCRIPTION:
-#  show.timeDate             Prints 'timeDate' object
+# FUNCTION:                 GENERATION OF TIMEDATE OBJECTS:
+#  Sys.timeDate              Returns system time as an 'timeDate' object
 ################################################################################
 
 
-setMethod("show", "timeDate",
-    function (object)
+Sys.timeDate <-
+    function(FinCenter = "")
 {
-    # A function implemented by Yohan Chalabi and Diethelm Wuertz
-    
-    # when creating empty new("timeDate")
-    if (!length(slot(object, "Data")))
-        return(str(object))
+    # A function implemented by Diethelm Wuertz
 
-    output <- format(object)
-    layout <- paste("[", output, "]", sep = "")
+    # Description:
+    #   Returns system time as an object of class 'timeDate'
 
-    # Print Results:
-    cat(object@FinCenter, "\n", sep = "")
-    print(layout, quote = FALSE)
+    # Arguments:
+    #   FinCenter - a character string with the the location of the
+    #       financial center named as "continent/city"
 
-    # Return Value:
-    invisible(NULL) # 'show' returns an invisible 'NULL'. (cf. ?show)
-})
+    # Value:
+    #   Returns the system time as an object of class 'timeDate'.
+
+    if (FinCenter == "")
+        FinCenter <- getRmetricsOptions("myFinCenter")
+
+    # only time at "GMT" is reliable on most systems
+    # charvec <- format(Sys.time(), tz = "GMT", usetz = FALSE)
+
+    # System Time:
+    time <- Sys.time()
+    attr(time, "tzone") <- "GMT"
+
+    # Return
+    timeDate(as.character(time), zone = "GMT", FinCenter = FinCenter)
+}
 
 
 ################################################################################
+

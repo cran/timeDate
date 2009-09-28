@@ -9,29 +9,37 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU Library General Public License for more details.
 #
-# You should have received A copy of the GNU Library General
+# You should have received a copy of the GNU Library General
 # Public License along with this R package; if not, write to the
 # Free Foundation, Inc., 59 Temple Place, Suite 330, Boston,
 # MA  02111-1307  USA
 
 
 ################################################################################
+# MEHODS:                   DESCRIPTION:
+#  unique.timeDate           Makes a 'timeDate' object unique
+################################################################################
 
-setGeneric("align", function(x, ...) standardGeneric("align"))
 
-setGeneric("atoms", function(x, ...) standardGeneric("atoms"))
+unique.timeDate <-
+    function(x, ...)
+{
+    # A function Implemented by Diethelm Wuertz
 
-setGeneric("finCenter", function(x) standardGeneric("finCenter"))
+    # Description:
+    #   Returns a timeDate object with duplicate entries removed
 
-setGeneric("finCenter<-", function(x, value) standardGeneric("finCenter<-"))
+    # Arguments:
+    #   x - an object of class timeDate
+    #   incomparables - not used
 
-setGeneric("isDaily", function(x) standardGeneric("isDaily"))
+    # FUNCTION:
 
-setGeneric("isQuarterly", function(x) standardGeneric("isQuarterly"))
+    # Return Value:
+    x@Data <- unique(x@Data, ...)
+    x
+}
 
-setGeneric("isMonthly", function(x) standardGeneric("isMonthly"))
-
-setGeneric("isRegular", function(x) standardGeneric("isRegular"))
 
 ################################################################################
 

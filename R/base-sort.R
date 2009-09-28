@@ -14,32 +14,39 @@
 # Free Foundation, Inc., 59 Temple Place, Suite 330, Boston,
 # MA  02111-1307  USA
 
+# Copyrights (C)
+# for this R-port:
+#   1999 - Diethelm Wuertz, GPL
+#   2007 - Rmetrics Foundation, GPL
+#   Diethelm Wuertz <wuertz@phys.ethz.ch>
+#   www.rmetrics.org
+# for the code accessed (or partly included) from other R-ports:
+#   see R's copyright and license files
+# for the code accessed (or partly included) from contributed R-ports
+# and other sources
+#   see Rmetrics's copyright file
+
 
 ################################################################################
-# FUNCTION:                 DESCRIPTION:
-#  show.timeDate             Prints 'timeDate' object
+# MEHODS:                   DESCRIPTION:
+#  sort.timeDate             Sorts a 'timeDate' object
 ################################################################################
 
 
-setMethod("show", "timeDate",
-    function (object)
+sort.timeDate <-
+    function(x, ...)
 {
-    # A function implemented by Yohan Chalabi and Diethelm Wuertz
+    # A function implemented by Diethelm Wuertz and Yohan Chalabi
+
+    # Description:
+    #   Sorts a 'timeDate' object
     
-    # when creating empty new("timeDate")
-    if (!length(slot(object, "Data")))
-        return(str(object))
-
-    output <- format(object)
-    layout <- paste("[", output, "]", sep = "")
-
-    # Print Results:
-    cat(object@FinCenter, "\n", sep = "")
-    print(layout, quote = FALSE)
+    # FUNCTION:
 
     # Return Value:
-    invisible(NULL) # 'show' returns an invisible 'NULL'. (cf. ?show)
-})
+    x[order(x@Data, ...)]
+}
 
 
 ################################################################################
+

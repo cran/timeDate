@@ -17,29 +17,45 @@
 
 ################################################################################
 # FUNCTION:                 DESCRIPTION:
-#  show.timeDate             Prints 'timeDate' object
+#  myUnits                   Sets date units
 ################################################################################
 
 
-setMethod("show", "timeDate",
-    function (object)
+.RmetricsOptions <- new.env(hash = TRUE)
+
+
+# ------------------------------------------------------------------------------
+
+
+setRmetricsOptions <-
+    function(...)
 {
-    # A function implemented by Yohan Chalabi and Diethelm Wuertz
+    # A function implemented by Yohan Chalabi
     
-    # when creating empty new("timeDate")
-    if (!length(slot(object, "Data")))
-        return(str(object))
+    x <- list(...)
+    nm <- names(x)
+     if (is.null(nm) || "" %in% nm)
+        stop("all arguments must be named")
+    sapply(nm, function(nm) assign(nm, x[[nm]],
+        envir = .RmetricsOptions))
+    invisible()
+}
 
-    output <- format(object)
-    layout <- paste("[", output, "]", sep = "")
 
-    # Print Results:
-    cat(object@FinCenter, "\n", sep = "")
-    print(layout, quote = FALSE)
+# ------------------------------------------------------------------------------
 
-    # Return Value:
-    invisible(NULL) # 'show' returns an invisible 'NULL'. (cf. ?show)
-})
+
+getRmetricsOptions <-
+    function(x = NULL, unset = "")
+{
+    # A function implemented by Yohan Chalabi
+    
+    if (is.null(x))
+        x <- ls(all.names = TRUE, envir = .RmetricsOptions)
+    unlist(mget(x, envir = .RmetricsOptions, mode = "any",
+        ifnotfound = as.list(unset)))
+}
 
 
 ################################################################################
+

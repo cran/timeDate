@@ -16,30 +16,35 @@
 
 
 ################################################################################
-# FUNCTION:                 DESCRIPTION:
-#  show.timeDate             Prints 'timeDate' object
+# FUNCTION:               DESCRIPTION:
+#  frequency.timeDate      Returns the frequency of a timeDate vector
 ################################################################################
 
 
-setMethod("show", "timeDate",
-    function (object)
-{
-    # A function implemented by Yohan Chalabi and Diethelm Wuertz
-    
-    # when creating empty new("timeDate")
-    if (!length(slot(object, "Data")))
-        return(str(object))
+setMethod("frequency", "timeDate", function(x, ...)
+      {
+          # A function implemented by Diethelm Wuertz
 
-    output <- format(object)
-    layout <- paste("[", output, "]", sep = "")
+          # Description:
+          #   Returns the frequency of a timeDate vector
 
-    # Print Results:
-    cat(object@FinCenter, "\n", sep = "")
-    print(layout, quote = FALSE)
+          # Arguments:
+          #   x - an object of class timeDate
 
-    # Return Value:
-    invisible(NULL) # 'show' returns an invisible 'NULL'. (cf. ?show)
-})
+          # Example:
+          #   frequency(timeCalendar())
+          #   frequency(timeCalendar()[(1:3)*4])
 
+          # FUNCTION:
+
+          # Frequency:
+          frequency <- 1
+          if(isMonthly(x)) frequency <- 12
+          if(isQuarterly(x)) frequency <- 4
+
+          # Return Value:
+          frequency
+      })
 
 ################################################################################
+
