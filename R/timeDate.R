@@ -85,9 +85,9 @@ setMethod("timeDate", "character",
 {
     # Settings and Checks:
     if (zone == "")
-        zone = getRmetricsOptions("myFinCenter")
+        zone <- getRmetricsOptions("myFinCenter")
     if (FinCenter == "")
-        FinCenter = getRmetricsOptions("myFinCenter")
+        FinCenter <- getRmetricsOptions("myFinCenter")
 
     # ISO Date/Time Format:
     isoDate   <- "%Y-%m-%d"
@@ -99,33 +99,15 @@ setMethod("timeDate", "character",
     if (format %in% c("unknown", "counts")) #-> "counts" catch potential problems from timeSeries
         return(timeDate(NA, zone = zone, FinCenter = FinCenter))
 
-    ## # if entries of charvec are not of same length, replace them with NA's
-    ## if (any(nc <- !(nchar(charvec) == nchar(charvec[1])))) {
-    ##     is.na(charvec) <- nc
-    ##     warning("'charvec' entries of different number of characters are replaced by NA's")
-    ## }
-
-    ## # YC :midnigStandard2 returns object in POSIXct which helps
-    ## # waisting time in strptime
-    ## # Midnight Standard & conversion to isoFormat:
-    ## charvec <- midnightStandard(charvec, format)
-    ## # convert to POSIXct as it is
-    ## ct <- as.POSIXct(charvec, format = isoFormat, tz="GMT")
-
     # Midnight Standard & conversion to isoFormat:
-    num <- midnightStandard2(charvec, format)
+    ct <- midnightStandard2(charvec, format)
 
     ## Do conversion
     ## YC: .formatFinCenterNum faster than .formatFinCenter
-    # YC : uncomment following line if using midnightStandar()
-    # num <- .formatFinCenterNum(c(unclass(ct)), zone, type = "any2gmt")
-    num <- .formatFinCenterNum(num, zone, type = "any2gmt")
+    num <- .formatFinCenterNum(unclass(ct), zone, type = "any2gmt")
 
-    # it is important to set manually the tzone flag,
-    # num <- as.POSIXct(num, origin = "1970-01-01", tz = "GMT")
-
-    # faster to create manually the POSIXct object
-    # num <- structure(num, class = c("POSIXt", "POSIXct"))
+    ## Manually create the POSIXct object:
+    ## it is important to set manually the tzone flag,
     num <-
         if (getRversion() >= "2.12.0")
             .POSIXct(num, "GMT")
