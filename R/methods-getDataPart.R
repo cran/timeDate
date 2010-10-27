@@ -16,40 +16,8 @@
 
 
 ################################################################################
-# FUNCTION:                 DESCRIPTION:
-#  dayOfWeek                 Returns the day of the week to a 'timeDate' object
+# METHOD:                 DESCRIPTION:
+#  getDataPart,timeDate    Extract POSIXct data part of timeDate objects
 ################################################################################
 
-
-dayOfWeek <-
-    function(x)
-{
-    # A function implemented by Diethelm Wuertz
-    # and modified by Yohan Chalabi
-
-    # Description:
-    #   Returns day of week for time date objects
-
-    # Arguments:
-    #   x - an object of class "timeDate"
-
-    # Example:
-    #   weekDay(Sys.timeDate())
-    #   weekDay(timeSequence("2005-05-15", "2005-07-15"))
-
-    # FUNCTION:
-    stopifnot(inherits(x, "timeDate"))
-
-    # Get Day of Week:
-    wd <- c("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
-    n <- as.POSIXlt(x, tz = "GMT")$wday + 1
-    wdays <- wd[n]
-    names(wdays) <- format(x)
-
-    # Return Value:
-    wdays
-}
-
-
-################################################################################
-
+setMethod("getDataPart", "timeDate", function(object) object@Data)
