@@ -1,3 +1,22 @@
+2011-02-10  chalabi
+
+	* DESCRIPTION: updated DESC file
+
+2011-01-07  mmaechler
+
+	* ChangeLog, R/timeDate-Sequence.R, man/calendar-isBizday.Rd,
+	  man/timeDate-Sequence.Rd: fix seq.timeDate() [along R-devel`s
+	  seq.POSIXt()]
+
+2010-11-01  chalabi
+
+	* inst/doc/timeDate.pdf: removed old version of vignette to be
+	  replaced with new one.
+
+2010-10-27  chalabi
+
+	* ChangeLog, DESCRIPTION: updated DESC and ChangeLog file
+
 2010-10-12  chalabi
 
 	* R/AllClass.R: updated initialize,timeDate-method to remove
