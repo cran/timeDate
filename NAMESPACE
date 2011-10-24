@@ -9,6 +9,13 @@ import("stats")
 import("methods")
 
 ################################################
+## Special: To avoid that zoo package masks
+##          as.Date.timeDate
+################################################
+
+export(as.Date.timeDate)
+
+################################################
 ## S4 classes
 ################################################
 
@@ -658,6 +665,7 @@ export(
     "getRmetricsOption",
     "getRmetricsOptions",
     "holiday",
+    "holidayLONDON",
     "holidayNERC",
     "holidayNYSE",
     "holidayTSX",
