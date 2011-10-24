@@ -1,5 +1,5 @@
 Package: timeDate
-Version: 2131.00
+Version: 2160.95
 Revision: 5145
 Date: 2011-10-24
 Title: Rmetrics - Chronological and Calendarical Objects
@@ -16,6 +16,6 @@ NOTE: SEVERAL PARTS ARE STILL PRELIMINARY AND MAY BE CHANGED IN THE
 LazyData: yes
 License: GPL (>= 2)
 URL: http://www.rmetrics.org
-Packaged: 2011-10-24 07:20:21 UTC; yohan
+Packaged: 2012-03-20 08:27:21 UTC; yankee
 Repository: CRAN
-Date/Publication: 2011-10-24 11:17:41
+Date/Publication: 2012-03-20 10:05:41

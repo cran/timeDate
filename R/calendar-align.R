@@ -24,42 +24,28 @@
 
 setMethod("align", "timeDate",
     function(x, by = "1d", offset = "0s")
-    # , include.weekends = TRUE)
 {
+    # A function implemented by Diethelm Wuertz and Yohan Chalabi
+    
     # Description:
     #   Aligns a 'timeDate' object to regular time stamps
 
     # Example:
-    #   align.timeDate(timeCalendar(), "1w")        # Weekly
-    #   align.timeDate(timeCalendar(), "2w", "3d")  # Bi-Weekly with offset
+    #   align(timeCalendar(), "1w")        # Weekly
+    #   align(timeCalendar(), "2w", "3d")  # Bi-Weekly with offset
 
     # FUNCTION:
 
     # Settings:
-    periods = c(7*24*3600, 24*3600, 3600, 60, 1)
-    names(periods) = c("w", "d", "h", "m", "s")
-    offset = as.integer(gsub("[a-z]", "", offset, perl = TRUE)) *
+    periods <- c(7*24*3600, 24*3600, 3600, 60, 1)
+    names(periods) <- c("w", "d", "h", "m", "s")
+    offset <- as.integer(gsub("[a-z]", "", offset, perl = TRUE)) *
         periods[gsub("[ 0-9]", "", offset, perl = TRUE)]
-    by = as.integer(gsub("[a-z]", "", by, perl = TRUE)) *
-        periods[gsub("[ 0-9]", "", by, perl = TRUE)]
-
-    # Convert timeDate to GMT-POSIX
-    posixGMT = as.POSIXct(
-        timeDate(x, zone = x@FinCenter, FinCenter = "GMT"), tz = "GMT")
-
-    # Compute Julian counts (x) and series values (y)
-    Origin = as.POSIXct("1970-01-01", tz = "GMT")
-    u <- as.integer(difftime(posixGMT, Origin, tz = "GMT", units = "secs"))
-    xout = seq(u[1] + offset, u[length(u)], by = by)
-    posixGMT = Origin + as.integer(xout)
-
-    x = timeDate(as.character(posixGMT), zone = "GMT", FinCenter = x@FinCenter)
-
-    # Remove Weekends:
-    # if(!include.weekends) x = x[isWeekday(x), ]
+    offset <- as.vector(offset)
 
     # Return Value:
-    x
+    seq(from = x[1] + offset, to = x[length(x)], by = by)
+
 })
 
 
@@ -67,10 +53,10 @@ setMethod("align", "timeDate",
 
 
 setMethod("align", "ANY",
-    function(x, y, xout, method = "linear", n = 50, rule = 1, f = 0, 
+    function(x, y, xout, method = "linear", n = 50, rule = 1, f = 0,
     ties = mean, ...)
 {
-    # A function implemented by Diethelm Wuertz
+    # A function implemented by Diethelm Wuertz and Yohan Chalabi
 
     # FUNCTION:
 
@@ -85,4 +71,93 @@ setMethod("align", "ANY",
 
 ################################################################################
 
+
+alignDaily <-
+function(x, include.weekends=FALSE)
+{
+     # A function implemented by Diethelm Wuertz
+     
+     # Description:
+     #    Aligns a 'timeDate' object to end-of-day dates
+     
+     # Arguments:
+     #    x - a 'timeDate' object
+     #    include.weekends - a logical, should weekends be included?
+     
+     # FUNCTION:
+     
+     # Align:
+     if (include.weekends) {
+         tD <- align(x)
+     } else {
+         tD <- align(x)
+         tD <- tD[isWeekday(tD)]
+     }
+     
+     # Return Value:
+     tD
+}
+
+
+# ----------------------------------------------------------------------------
+
+
+alignMonthly <- 
+function(x, include.weekends=FALSE)
+{
+    # A function implemented by Diethelm Wuertz
+    
+    # Description:
+    #    Aligns a 'timeDate' object to end of month dates
+     
+    # Arguments:
+    #    x - a 'timeDate' object
+    #    include.weekends - a logical, should weekends be included?
+     
+    # FUNCTION:
+    
+    # Align:
+    if (include.weekends) {
+        tD <- timeLastDayInMonth(x)
+    } else {
+        tD <- timeLastDayInMonth(x)
+        tD[isWeekend(tD)] <- tD[isWeekend(tD)] - 24*3600
+    }
+    
+    # Return Value:
+    tD
+}
+
+
+# ----------------------------------------------------------------------------
+
+
+alignQuarterly <- 
+function(x, include.weekends=FALSE)
+{
+    # A function implemented by Diethelm Wuertz
+    
+    # Description:
+    #    Aligns a 'timeDate' object to end-of-quarter dates
+    
+    # Arguments:
+    #    x - a 'timeDate' object
+    #    include.weekends - a logical, should weekends be included?
+     
+    # FUNCTION:
+    
+    # Align:
+    if (include.weekends) {
+        tD <- timeLastDayInQuarter(x)
+    } else {
+        tD <- timeLastDayInQuarter(x)
+        tD[isWeekend(tD)] <- tD[isWeekend(tD)] - 24*3600
+    }
+    
+    # Return Value:
+    tD
+}
+
+
+###############################################################################
 
