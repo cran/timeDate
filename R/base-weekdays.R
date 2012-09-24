@@ -24,84 +24,77 @@
 ################################################################################
 
 
-.fjulian <- 
-    function(fdates, origin = 19600101, order = 'mdy', cc = NULL, swap = 20)
-{   
-    # A function implemented by Diethelm Wuertz
+## .fjulian <-
+##     function(fdates, origin = 19600101, order = 'mdy', cc = NULL, swap = 20)
+## {
+##     # A function implemented by Diethelm Wuertz
 
-    # Description:
-    #   Transforms formatted dates (fdates) from several formats
-    #   as 8/11/73 11Aug1973, ... into ISO-8601 Gregorian dates
-    #   ... makes use of C-Program char_date.c implemented by
-    #   Terry Therneau
+##     # Description:
+##     #   Transforms formatted dates (fdates) from several formats
+##     #   as 8/11/73 11Aug1973, ... into ISO-8601 Gregorian dates
+##     #   ... makes use of C-Program char_date.c implemented by
+##     #   Terry Therneau
 
-    # Notes:
-    #   cc - Century, becoming obsolete with the introduction of swap.
+##     # Notes:
+##     #   cc - Century, becoming obsolete with the introduction of swap.
 
-    # Example:
-    #   require(date)
-    #   fdates = c("8/11/73", "08-11-73", "August 11 1973", "Aug11/73")
-    #   .fjulian(fdates)
-    #   fdates = c("11/8/73", "11-08-73", "11 August 1973", "11Aug73")
-    #   .fjulian(fdates, order = 'dmy')
+##     # Example:
+##     #   require(date)
+##     #   fdates = c("8/11/73", "08-11-73", "August 11 1973", "Aug11/73")
+##     #   .fjulian(fdates)
+##     #   fdates = c("11/8/73", "11-08-73", "11 August 1973", "11Aug73")
+##     #   .fjulian(fdates, order = 'dmy')
 
-    # Note:
-    #   Requires R-package "date"
+##     # Note:
+##     #   Requires R-package "date"
 
-    # FUNCTION:
+##     # FUNCTION:
 
-    # Requires
-    # require(date)
+##     stopifnot(require("date"))
 
-    # Formats:
-    order.vec = switch(order,
-        'ymd'= c(1,2,3),
-        'ydm'= c(1,3,2),
-        'mdy'= c(2,3,1),
-        'myd'= c(2,1,3),
-        'dym'= c(3,1,2),
-        'dmy'= c(3,2,1),
-        stop("Invalid value for 'order' option"),
-        PACKAGE = "date")
-    nn = length(fdates)
-    temp = .C("char_date",
-        as.integer(nn),
-        as.integer(order.vec),
-        as.character(fdates),
-        month = integer(nn),
-        day = integer(nn),
-        year = integer(nn),
-        PACKAGE = "date")
-    month = temp[[4]]
-    day = temp[[5]]
-    year = temp[[6]]
-    yy = year - 100 * floor (year/100)
 
-    # Swap:
-    cc = 19 + trunc(sign(swap-yy)+1)/2
-    year = cc*100 + yy
+##     # Formats:
+##     order.vec <-
+##         switch(order,
+##                'ymd'= c(1,2,3),
+##                'ydm'= c(1,3,2),
+##                'mdy'= c(2,3,1),
+##                'myd'= c(2,1,3),
+##                'dym'= c(3,1,2),
+##                'dmy'= c(3,2,1),
+##                stop("Invalid value for 'order' option"))
+##     nn = length(fdates)
+##     cd <- .C("char_date",
+##              as.integer(nn),
+##              as.integer(order.vec),
+##              as.character(fdates),
+##              month = integer(nn),
+##              day = integer(nn),
+##              year = integer(nn), PACKAGE = "date")[c("month", "day", "year")]
 
-    # Origin:
-    cc0 = origin %/% 1000000
-    yymmdd0 = origin - cc0*1000000
-    yy0 = yymmdd0 %/% 10000
-    mm0 = yymmdd0 %/% 100 - yy0*100
-    dd0 = yymmdd0 - yy0*10000 - mm0*100
+##     yy <- cd$year %% 100
 
-    # Result:
-    ans = .julian(month, day, year, origin = c(mm0, dd0, cc0*100+yy0))
+##     # Swap:
+##     cc = 19 + trunc(sign(swap-yy)+1)/2
+##     year = cc*100 + yy
 
-    # Return Value:
-    ans
-}
+##     # Origin:
+##     cc0 = origin %/% 1000000
+##     yymmdd0 = origin - cc0*1000000
+##     yy0 = yymmdd0 %/% 10000
+##     mm0 = yymmdd0 %/% 100 - yy0*100
+##     dd0 = yymmdd0 - yy0*10000 - mm0*100
+
+##     # Result:
+##     .julian(cd$month, cd$day, year, origin = c(mm0, dd0, cc0*100+yy0))
+## }
 
 
 # ------------------------------------------------------------------------------
 
 
-.julian <- 
-    function(m, d, y, origin = c(month = 1, day = 1, year = 1960))
-{   
+.julian <- function(m, d, y, origin = c(month = 1, day = 1, year = 1960))
+{
     # A function implemented by Diethelm Wuertz
 
     # Description:
@@ -112,10 +105,6 @@
     #   SPlus like function.
 
     # FUNCTION:
-
-    # Selection:
-    .R = TRUE
-    .S = FALSE
 
     # Implementation:
     only.origin = all(missing(m), missing(d), missing(y))
@@ -135,21 +124,21 @@
         (153 * m + 2) %/% 5 + d + 1721119
     # now subtract the new origin from all dates
     if(!only.origin) {
-        if(all(origin == 0)) out = out[-1] else out = out[-1] - out[1] }
+        out <- if(all(origin == 0)) out[-1] else out[-1] - out[1]
+    }
     names(out) = nms
-    result = out  
 
     # Return Value:
-    result
+    out
 }
 
 
 # ------------------------------------------------------------------------------
 
 
-.isPOSIX <- 
+.isPOSIX <-
     function(x)
-{   
+{
     # A function implemented by Diethelm Wuertz
 
     # Description:
@@ -168,9 +157,9 @@
 # ------------------------------------------------------------------------------
 
 
-.by2seconds <- 
+.by2seconds <-
     function(by = "1 h")
-{   
+{
     # A function implemented by Diethelm Wuertz
 
     # Description:
@@ -193,4 +182,3 @@
 
 
 ################################################################################
-
