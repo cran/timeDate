@@ -1,8 +1,8 @@
 Package: timeDate
-Version: 2160.96
-Revision: 5368
-Date: 2012-09-24
-Title: Rmetrics - Chronological and Calendarical Objects
+Version: 2160.97
+Revision: 5372
+Date: 2012-09-26
+Title: Rmetrics - Chronological and Calendar Objects
 Author: Diethelm Wuertz, Yohan Chalabi and Martin Maechler with
         contributions from Joe W. Byers, and others
 Depends: R (>= 2.10.0), graphics, utils, stats, methods
@@ -16,6 +16,6 @@ NOTE: SEVERAL PARTS ARE STILL PRELIMINARY AND MAY BE CHANGED IN THE
 LazyData: yes
 License: GPL (>= 2)
 URL: http://www.rmetrics.org
-Packaged: 2012-09-24 07:39:47 UTC; yankee
+Packaged: 2012-09-26 07:11:13 UTC; yankee
 Repository: CRAN
-Date/Publication: 2012-09-24 08:31:49
+Date/Publication: 2012-09-26 07:26:41

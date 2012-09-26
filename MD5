@@ -1,6 +1,6 @@
-0c44aa87afd5beb9e01924420aa9f503 *ChangeLog
-848fb846b6f50364151c8edb2b92177d *DESCRIPTION
-b6a35e4213f7296f53957228cee8efe3 *NAMESPACE
+a8832423f170679dc6f6901b42b1d538 *ChangeLog
+9ac4ee36baf64883f9422d0519d6a4fd *DESCRIPTION
+80af8da9fa10208dbe0196a7081d7053 *NAMESPACE
 08cd3da7266adf4b1be27e5c64e48f34 *R/AllClass.R
 4c2507350e7e568ac082cc9b833cfc5d *R/AllGeneric.R
 f07f83c182d019db013c14a331f8fbe4 *R/base-c.R
@@ -21,7 +21,7 @@ b96c972f0baa19ced96023fa83e4f75f *R/base-weekdays.R
 b67742328c041197a0543f5e49ff5290 *R/calendar-align.R
 aa4c9469fc1107fb192a269742cdae88 *R/calendar-atoms.R
 5c0ceaa0988a3dd3d988a2156f7522cd *R/calendar-dayOfWeek.R
-fbd158a5606f845f00dd643c2f27f086 *R/calendar-endpoints.R
+7ff5ad55b39fb50497b86eedd7847201 *R/calendar-endpoints.R
 42020832301619bf47d8724e37ac70cc *R/calendar-firstDay.R
 7e0ddd474bcfb5e016944d7ebe976585 *R/calendar-isDaily.R
 7714ba17833e68dc92dc5ea195197521 *R/calendar-isWeekday.R
@@ -105,7 +105,7 @@ d904ce1d0244be3f5204eaaf546555f9 *man/calendar-Easter.Rd
 a89ee015548fbe16ce53643d09c80713 *man/calendar-align.Rd
 d38b5edd05cde2d8a45c2a095ab2e041 *man/calendar-dayOfWeek.Rd
 97c89887a27a39ff45b45c0b60d98370 *man/calendar-dayOfYear.Rd
-a18f39569117cad58765ea266d58a90c *man/calendar-endpoints.Rd
+c805cd7d4ae0a182e9876eb8b8f7f594 *man/calendar-endpoints.Rd
 202d197efa6daf8bf30140e64f993c45 *man/calendar-firstDay.Rd
 6a3ad31cd58c82053391cc998344d95f *man/calendar-isBizday.Rd
 f33b0d6dd9c3f8b06fd8995af7453165 *man/calendar-isRegular.Rd
