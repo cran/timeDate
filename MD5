@@ -1,12 +1,12 @@
-a8832423f170679dc6f6901b42b1d538 *ChangeLog
-9ac4ee36baf64883f9422d0519d6a4fd *DESCRIPTION
+b9fa307eebfb5ad9606301031237b899 *ChangeLog
+635286a148e8a11a6f2bff2023178d6e *DESCRIPTION
 80af8da9fa10208dbe0196a7081d7053 *NAMESPACE
 08cd3da7266adf4b1be27e5c64e48f34 *R/AllClass.R
 4c2507350e7e568ac082cc9b833cfc5d *R/AllGeneric.R
 f07f83c182d019db013c14a331f8fbe4 *R/base-c.R
 85918814853d5abfc2bcbc12360f2414 *R/base-diff.R
 aa728b7278130e41ce4c279ea613b94e *R/base-difftimeDate.R
-978a8a17327f1d2f7ec60099d75528f0 *R/base-format.R
+2a6d93d85a99b23bf966535a222179cc *R/base-format.R
 cf0ef5dd3b562c2ae8925f82df5cfa0e *R/base-length.R
 7e73b6e3e5c04f84a033b99f6336566f *R/base-rep.R
 5586383fedb9b24310725c7c8d859535 *R/base-rev.R
@@ -26,7 +26,7 @@ aa4c9469fc1107fb192a269742cdae88 *R/calendar-atoms.R
 7e0ddd474bcfb5e016944d7ebe976585 *R/calendar-isDaily.R
 7714ba17833e68dc92dc5ea195197521 *R/calendar-isWeekday.R
 f4484d580c20aada907460981b1e073a *R/calendar-julian.R
-a5dc152297057d69496ddc0c29649a69 *R/calendar-nDay.R
+e720d8d98ca40a9c56eb2199b9a9335e *R/calendar-nDay.R
 f58c306bc93004ee7154dcf32f89c1de *R/calendar-onOrAfter.R
 cfb53bc9b202ba263226ddfbc1eb3388 *R/calendar-periods.R
 7ee04e42c970c4872daa54a9410c0ce4 *R/holiday-Dates.R
@@ -78,7 +78,7 @@ ec147d48d17b38ef8abbe2bd52be584a *inst/unitTests/runit.DaylightSavingTime.R
 fd4b42dcfe3311f51d52159fb712ab4f *inst/unitTests/runit.HolidayCalendars.R
 18820ee6c7f2bcfe8248436ad8e7b4d8 *inst/unitTests/runit.HolidayDates.R
 b32520bbe4a5ac9285e8b24463901b88 *inst/unitTests/runit.MathOps.R
-d94d0982ace31f472d9489977cd8d9c4 *inst/unitTests/runit.SpecialDates.R
+5833d7cd71c5a8b016fd1ffbfb441df0 *inst/unitTests/runit.SpecialDates.R
 161ed6686e67c3c9cca583804af8724d *inst/unitTests/runit.Subsets.R
 a605441af673030de4659573d677f537 *inst/unitTests/runit.ZZZ.R
 0cc47e3550f38090021bd6685190fc6b *inst/unitTests/runit.dayOfWeek.R
