@@ -20,7 +20,10 @@
 #  show.timeDate             Prints 'timeDate' object
 ################################################################################
 
-
+# ---------------------------------------------------------------------------- #
+# Roxygen Tags
+#' @export
+# ---------------------------------------------------------------------------- #
 setMethod("show", "timeDate", function (object)
 {
     # A function implemented by Yohan Chalabi and Diethelm Wuertz
@@ -39,7 +42,7 @@ setMethod("show", "timeDate", function (object)
         object <- object[seq.int(max)]
 
     output <- format(object)
-    layout <- paste("[", output, "]", sep = "")
+    layout <- paste0("[", output, "]")
     names(layout) <- names(output)
 
     # Print Results:

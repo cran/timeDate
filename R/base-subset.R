@@ -33,11 +33,18 @@
 
 # Functions implemented by Yohan Chalabi and Diethelm Wuertz
 
-
+# ---------------------------------------------------------------------------- #
+# Roxygen Tags
+#' @export
+# ---------------------------------------------------------------------------- #
 setMethod("[", signature(x="timeDate", i="missing", j="missing", drop="ANY"),
     function(x, i, j, ..., drop = TRUE) x)
 
 
+# ---------------------------------------------------------------------------- #
+# Roxygen Tags
+#' @export
+# ---------------------------------------------------------------------------- #
 setMethod("[", signature(x="timeDate", i="numeric", j="missing", drop="ANY"),
     function(x, i, j, ..., drop = TRUE)
     {
@@ -46,6 +53,10 @@ setMethod("[", signature(x="timeDate", i="numeric", j="missing", drop="ANY"),
     })
 
 
+# ---------------------------------------------------------------------------- #
+# Roxygen Tags
+#' @export
+# ---------------------------------------------------------------------------- #
 setMethod("[", signature(x="timeDate", i="logical", j="missing", drop="ANY"),
     function(x, i, j, ..., drop = TRUE)
     {
@@ -55,6 +66,10 @@ setMethod("[", signature(x="timeDate", i="logical", j="missing", drop="ANY"),
 )
 
 
+# ---------------------------------------------------------------------------- #
+# Roxygen Tags
+#' @export
+# ---------------------------------------------------------------------------- #
 setMethod("[", signature(x="timeDate", i="character", j="missing", drop="ANY"),
     function(x, i, j, ..., drop = TRUE)
     {
@@ -74,14 +89,19 @@ setMethod("[", signature(x="timeDate", i="character", j="missing", drop="ANY"),
 )
 
 
+# ---------------------------------------------------------------------------- #
+# Roxygen Tags
+#' @export
+# ---------------------------------------------------------------------------- #
 setMethod("[", signature(x="timeDate", i="ANY", j="missing", drop="ANY"),
           function(x, i, j, ..., drop = TRUE)
           stop("Not Yet implemented"))
 
 
-#-------------------------------------------------------------------------------
-
-
+# ---------------------------------------------------------------------------- #
+# Roxygen Tags
+#' @export
+# ---------------------------------------------------------------------------- #
 "[<-.timeDate" <-
     function(x, ..., value)
 {
@@ -118,7 +138,10 @@ setMethod("[", signature(x="timeDate", i="ANY", j="missing", drop="ANY"),
 
 ################################################################################
 
-
+# ---------------------------------------------------------------------------- #
+# Roxygen Tags
+#' @export
+# ---------------------------------------------------------------------------- #
 .subsetCode <-
 function(subset)
 {
@@ -168,9 +191,10 @@ function(subset)
 }
 
 
-# ------------------------------------------------------------------------------
-
-
+# ---------------------------------------------------------------------------- #
+# Roxygen Tags
+#' @export
+# ---------------------------------------------------------------------------- #
 .subsetByPython <-
 function(x = timeCalendar(), subset = "::")
 {
@@ -218,12 +242,12 @@ function(x = timeCalendar(), subset = "::")
 
     # Internal Functions:
     .completeStart = function(date) {
-        substr(paste(date, "-01-01", sep = ""), 1, 10) }
+        substr(paste0(date, "-01-01"), 1, 10) }
     .completeEnd = function(date) {
         if (nchar(date) == 4)
-            paste(date, "-12-31", sep = "") else
+            paste0(date, "-12-31") else
         if (nchar(date) == 7)
-            format(timeLastDayInMonth(paste(date, "-01", sep = ""))) else
+            format(timeLastDayInMonth(paste0(date, "-01"))) else
         if (nchar(date) == 10)
             date }
 
@@ -244,9 +268,10 @@ function(x = timeCalendar(), subset = "::")
 }
 
 
-# ------------------------------------------------------------------------------
-
-
+# ---------------------------------------------------------------------------- #
+# Roxygen Tags
+#' @export
+# ---------------------------------------------------------------------------- #
 .subsetBySpan  <-
 function(x = timeCalendar(), subset = "last 3 Months")
 {
