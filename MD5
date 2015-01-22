@@ -1,5 +1,5 @@
 b9fa307eebfb5ad9606301031237b899 *ChangeLog
-93e9c9fb756dfe5fd3ebd50e94e9a341 *DESCRIPTION
+900d53f6ad24f4f74aba2e2dd3adee9a *DESCRIPTION
 40294ebaea974f29f80f2e55190504c6 *NAMESPACE
 ef14d70b3b818d0ea33b2a6e06894c45 *R/AllClass.R
 c6a37f269924e67dcaad7ff4142daf45 *R/AllGeneric.R
@@ -65,7 +65,7 @@ c625315a78f33f57700928efd15e2f21 *R/timeDate-finCenter.R
 c842a179923f29f74e1906b1f82eed88 *R/timeDate-midnightStandard.R
 30a54c86ecd41a57cd10e7f8bd6eb974 *R/timeDate-rulesFinCenter.R
 0f8b4b8758e2a3e16d0f8847d95e0448 *R/timeDate-whichFormat.R
-3a5deda2e6d361b63e7aca3912b37c9a *R/timeDate.R
+c946c29eee08d6eb6625b309136a5806 *R/timeDate.R
 c197c3e96767f47cf7aac648d0365fdf *R/tzone.R
 3e2e67a10113c486c22df7752ea4c19b *R/zzz.R
 6042b9c5e5bec3ecc1b6959cd2858b64 *inst/COPYRIGHT.html
