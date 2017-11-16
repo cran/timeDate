@@ -1,7 +1,7 @@
 b9fa307eebfb5ad9606301031237b899 *ChangeLog
-900d53f6ad24f4f74aba2e2dd3adee9a *DESCRIPTION
+2651b4017739144e950ca50a6a11bf44 *DESCRIPTION
 40294ebaea974f29f80f2e55190504c6 *NAMESPACE
-ef14d70b3b818d0ea33b2a6e06894c45 *R/AllClass.R
+9de07b8f207fa211bcf1336c3f756204 *R/AllClass.R
 c6a37f269924e67dcaad7ff4142daf45 *R/AllGeneric.R
 7f50ff86d6a47b73de579f697365bf6a *R/base-c.R
 2d5aa8245be12c805e807e0825c4a675 *R/base-diff.R
@@ -43,7 +43,7 @@ fe95f5688335692969c0bdc9f4acf20b *R/methods-as.R
 c34daa68eb200e27fd64fc46de02aeec *R/methods-names.R
 01d401c847810545d5f62c34c40505f8 *R/methods-plot.R
 f7ee14152627c8e8193be89ce75a7ce1 *R/methods-show.R
-5ef9b6510a6b6409cc65ebacc7c03049 *R/namespace-tags.R
+9af626315ae2b392951f264841bab19d *R/namespace-tags.R
 4131ceeaa9f43636246b945eb7aba79f *R/options-RmetricsOptions.R
 0c055d44fd7537c68743f223598c7bf0 *R/options-currentYear.R
 80e92d273de29da942f632d2d9c494c9 *R/options-myFinCenter.R
@@ -87,7 +87,7 @@ a605441af673030de4659573d677f537 *inst/unitTests/runit.ZZZ.R
 f3ffd1a788653d3a124714c30d464d6b *inst/unitTests/runit.isWeekday.R
 98594eb99601444b0836db4af30f4142 *inst/unitTests/runit.isWeekend.R
 b790edcc5ce89e5f7c83dd6d8a53dea2 *inst/unitTests/runit.seq.R
-9c043f05a26a6768b229b8273410e66d *man/00timeDate-package.Rd
+8fb10c60d348d00a08746f0c0767fd96 *man/00timeDate-package.Rd
 644497a13342161bc7396513ffdfa182 *man/base-c.Rd
 fb8991d4e9f2537920d7c1eedcd7d8ea *man/base-diff.Rd
 5f644b17d1665278750568f11d006957 *man/base-difftimeDate.Rd
