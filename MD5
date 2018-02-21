@@ -1,5 +1,5 @@
 b9fa307eebfb5ad9606301031237b899 *ChangeLog
-2651b4017739144e950ca50a6a11bf44 *DESCRIPTION
+c1cca78057c0d0753dee0b4a8f1cb548 *DESCRIPTION
 40294ebaea974f29f80f2e55190504c6 *NAMESPACE
 9de07b8f207fa211bcf1336c3f756204 *R/AllClass.R
 c6a37f269924e67dcaad7ff4142daf45 *R/AllGeneric.R
@@ -13,7 +13,7 @@ dd707d7dee940038ed3ee90d0266d818 *R/base-rev.R
 fd9344bf623b2c0980492889e00b142e *R/base-round.R
 4e0085d7b2063759a16cf1dbca8a7b0a *R/base-sample.R
 2e09b9c2eed79b7bb2b0aadbc9e86fcb *R/base-sort.R
-a5317007bd371f4444c9885ce00161c0 *R/base-subset.R
+ec97bfb6eef78218eca6e359b24621bd *R/base-subset.R
 981b9538100a3a3b5e90c63757f81f6c *R/base-summary.R
 2562c8d93e1ed2ead23145c2c85675bb *R/base-unique.R
 ab21e15e0df0daa880298c623717106e *R/base-weekdays.R
