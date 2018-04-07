@@ -79,6 +79,7 @@ holidayTSX <-
         CAVictoriaDay(year),
         CACanadaDay(year),
         CACivicProvincialHoliday(year),
+        CALabourDay(year),
         CAThanksgivingDay(year),
         ChristmasDay(year),
         BoxingDay(year))
