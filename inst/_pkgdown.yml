@@ -10,25 +10,22 @@ reference:
       - "timeDate-package"
   - title: "timeDate objects"
     contents:
-      - timeDate 
-      - as.timeDate
-      - timeCalendar
       - "timeDate-class"
+      - timeDate 
+      - timeSequence
+      - timeCalendar
+      - as.timeDate
       - timeDateMathOps
       - difftimeDate
       - Sys.timeDate
-      - timeSequence
-      - julian
+      - sample
       - isRegular
       - blockStart
-  - title: "Other time functions"
+  - title: "Time/date utilities"
     contents:
-      - DaylightSavingTime
       - midnightStandard
       - whichFormat
   - title: "Statistical functions"
-    desc: >
-      Some of these functions probably should not be in this package.
     contents:
       - skewness
       - kurtosis
@@ -48,7 +45,6 @@ reference:
       - rep
       - rev
       - round
-      - sample
       - sort
       - start
       - subset
@@ -63,6 +59,7 @@ reference:
       - "is.na-methods"
   - title: "Calendar related"
     contents:
+      - julian
       - dayOfWeek
       - dayOfYear
       - timeFirstDayInMonth
@@ -220,3 +217,7 @@ reference:
       - JPEmperorsBirthday
       - JPTennouTanjyouBi
       - JPBankHolidayDec31
+  - title: "Daylight Saving Time"
+    contents:
+      - DaylightSavingTime
+    

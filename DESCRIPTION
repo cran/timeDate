@@ -1,7 +1,7 @@
 Package: timeDate
 Title: Rmetrics - Chronological and Calendar Objects
-Date: 2022-07-19
-Version: 4021.104
+Date: 2022-09-29
+Version: 4021.106
 Authors@R: c(person("Diethelm", "Wuertz", role="aut", comment = "original code")
 	   , person("Tobias", "Setz", role = c("aut"), email = "tobias.setz@live.com")
 	   , person("Yohan", "Chalabi", role = "aut")
@@ -19,7 +19,7 @@ Description: The 'timeDate' class fulfils the conventions of the ISO 8601
 	data records from the same time zone, even if the financial 
 	centers changed day light saving times at different calendar
 	dates.
-Depends: R (>= 2.15.1)
+Depends: R (>= 3.6.0)
 Imports: graphics, utils, stats, methods
 Suggests: date, RUnit
 License: GPL (>= 2)
@@ -28,7 +28,7 @@ URL:
         (devel), https://www.rmetrics.org
 BugReports: https://r-forge.r-project.org/projects/rmetrics
 NeedsCompilation: no
-Packaged: 2022-07-19 11:08:08 UTC; georgi
+Packaged: 2022-09-29 08:07:49 UTC; georgi
 Author: Diethelm Wuertz [aut] (original code),
   Tobias Setz [aut],
   Yohan Chalabi [aut],
@@ -37,4 +37,4 @@ Author: Diethelm Wuertz [aut] (original code),
   Georgi N. Boshnakov [cre, ctb]
 Maintainer: Georgi N. Boshnakov <georgi.boshnakov@manchester.ac.uk>
 Repository: CRAN
-Date/Publication: 2022-07-19 13:30:02 UTC
+Date/Publication: 2022-09-30 10:00:02 UTC
