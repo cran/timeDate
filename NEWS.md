@@ -1,3 +1,51 @@
+# timeDate 4021.107
+
+- London financial centre holidays - fixed and/or included non-standard holidays
+  (e.g., Early May Bank holiday was moved in 2020 to VE day; Spring Bank holiday
+  was moved in Queen's Jubilee years; state funeral of the Queen).  Millenium
+  day now is included in the result of `holidayLONDON(1999)`.  The London
+  holidays should now be complete up to the time of writing this (1 Oct 2022).
+
+- renamed `GBMayDay` to `GBEarlyMayBankHoliday` and `GBBankHoliday` to
+  `GBSpringBankHoliday`. The old names are somewhat ambiguous and strongly
+  discouraged but still available. `listHolidays()` gives the new names.
+
+- the generic `timeDate()` gets argument '...' to allow methods for it to have
+  additional arguments (e.g., for DST gaps).
+
+- the 'character' method for `dateTime()` gets a new argument `dst_gap` to
+  control what to do with non-existent DST times at the requested `FinCenter`
+  with options to add/subtract ("+", "-") the DST shift or set them to `NA`.
+
+- `DateTime()` was not handling correctly some times just after the switch
+  to/from DST. This was visible mostly for time zones away from GMT and GMT+1.
+
+- In `timeSequence()`, if any of the generated times would fall in DST gaps,
+  they are moved by "+1 hour", corresponding to `dst_gap = "+"` in `timeDate`.
+  This is consistent with `seq` for other time objects.  Currently there is no
+  option to change this behaviour of `timeSequence`.
+
+  Previously `timeSequence` was moving DST gaps down by 1 hour (for by =
+  'DSTday' and similar). This was not consistent similar time functions in R and
+  was actually due to a bug (or unfinished DST handling) in `timeDate`, see
+  remarks for `timeDate` above.
+  
+- `timeSequence()` now throws error if argument `from` is in a DST gap. It seems
+  desirable to have a default action for this case. Rolling the faulty time by
+  an hour in the case of 'DSTday' may be suitable in most cases but for other
+  values of `by` it might be totally wrong. 
+
+- updated the DST rules.
+
+- internally, refactored the way the DST rules are generated (not visible to
+  users).
+
+- `rulesFinCenter()` now looks for a financial center starting from the
+  namespace of `timeDate`. Previously it was starting from the environment of
+  the caller which could result in using an unrelated object or, if `timeDate`
+  was loaded but not attached, not finding it.
+
+  
 # timeDate 4021.106
 
 - fix `whichFormat()` to accommodate a change in R-devel after which
@@ -18,9 +66,9 @@
 
 - `holidaysNYSE()` gets a new argument, `type`, to select what type of the
   exchange's closing days to return. The default is to return all days in the
-  requested years when NYSE was closed for whatever reason. Use `type =
-  "standard"` and `type = `special` to get the standard holidays and the special
-  closings, respectively.
+  requested years when NYSE was closed for whatever reason. Use `type = "standard"`
+  and `type = special` to get the standard holidays and the special closings,
+  respectively.
 
   Returning any closing day by default might be considered a breaking
   change. However, not returning all closing days was perceived as erroneous by
@@ -61,7 +109,7 @@
 ## Deprecation notes
 
 - the `timeDate` method for `cut` has been discouraged in the sources for a long
-  time with a recommendation to use \code{window} instead (just replace `cut(x,
+  time with a recommendation to use `window` instead (just replace `cut(x,
   from = xx , to = yy)` with `window(x, start = xx, end = yy)`. The `cut` method
   will be deprecated in the next release and later removed or replaced by a
   method that is consistent with the methods for `cut` in base R.

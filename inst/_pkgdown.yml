@@ -1,3 +1,8 @@
+url: https://geobosh.github.io/timeDateDoc/
+
+deploy:
+  install_metadata: true
+
 template:
   bootstrap: 5
   
@@ -139,8 +144,8 @@ reference:
       - CHAscension
       - CHConfederationDay
       - CHKnabenschiessen
-      - GBMayDay
-      - GBBankHoliday
+      - GBEarlyMayBankHoliday
+      - GBSpringBankHoliday
       - GBSummerBankHoliday
       - GBMilleniumDay
       - DEAscension

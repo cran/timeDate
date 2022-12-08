@@ -27,7 +27,7 @@
 # ---------------------------------------------------------------------------- #
 timeSequence <-
     function(from, to = Sys.timeDate(), by, length.out = NULL, format = NULL,
-    zone = "", FinCenter = "")
+             zone = "", FinCenter = "")
 {
     # A function implemented by Diethelm Wuertz
 
@@ -85,7 +85,18 @@ timeSequence <-
     } else {
         format.from <- format.to <- format
     }
-    from <- timeDate(from, format = format.from, zone = zone, FinCenter = FinCenter)
+    ## GNB: throw error if 'from' is in a DST gap
+
+    ## Not sure how to deal with this w/o branching into different cases for 'by', for
+    ## example. For example, for 'DSTday' all days will be shifted by one hour.
+    ## Could subtract it at the end but even then the length of the result may be wrong.
+    ##
+    ## Let the user decide on an alternative.
+    from <- timeDate(from, format = format.from, zone = zone, FinCenter = FinCenter,
+                     dst_gap = "NA")
+    if(is.na(from)) {# in DST gap
+        stop("argument 'from' specifies a non-existent time in time zone '", FinCenter, "'")
+    }
     to   <- timeDate(to,   format = format.to,   zone = zone, FinCenter = FinCenter)
 
     if (length(length.out))
@@ -192,9 +203,11 @@ seq.timeDate <-
             ## defeat test in seq.default
             res <- seq.int(0, to0 - from, by) + from
         }
-        ## return(.POSIXct(res, tz)) ##
+        ## res is integer here, not POSIXct
     } else {  # months or years or DSTdays
+        ## build the object as POSIXlt, then convert to  POSIXct
         r1 <- as.POSIXlt(from)
+        
         if(valid == 7L) { # years
             if(missing(to)) { # years
                 yr <- seq.int(r1$year, by = by, length.out = length.out)
@@ -219,6 +232,7 @@ seq.timeDate <-
             }
             r1$mday <- seq.int(r1$mday, by = by, length.out = length.out)
         }
+
 	r1$isdst <- -1L
 	res <- as.POSIXct(r1)
 	## now shorten if necessary.
@@ -227,9 +241,9 @@ seq.timeDate <-
 	    res <- if(by > 0) res[res <= to] else res[res >= to]
 	}
     }
+
     timeDate(res, zone = zone, FinCenter = FinCenter) ##
 }
 
 
 ################################################################################
-

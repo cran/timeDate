@@ -78,8 +78,8 @@ listHolidays <-
         "CHAscension",
         "CHConfederationDay",
         "CHKnabenschiessen",
-        "GBMayDay",
-        "GBBankHoliday",
+        "GBEarlyMayBankHoliday", # was: "GBMayDay",
+        "GBSpringBankHoliday",   # was: "GBBankHoliday"
         "GBSummerBankHoliday",
         "GBMilleniumDay",
         "DEAscension",
@@ -116,6 +116,7 @@ listHolidays <-
         "USChristmasDay",
         "USCPulaskisBirthday",
         "USGoodFriday",
+        "USJuneteenthNationalIndependenceDay",
         "CAVictoriaDay",
         "CACanadaDay",
         "CACivicProvincialHoliday",

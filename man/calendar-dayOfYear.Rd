@@ -1,15 +1,13 @@
 \name{dayOfYear}
-
-
-\title{Day of the Year}
-
-
 \alias{dayOfYear}
 
 
+\title{Day of the year}
+
 \description{
     
-    returns the day of the year from a 'timeDate' object.
+  Returns the days of the year of the data in a \code{"timeDate"}
+  object.
       
 }
 
@@ -18,38 +16,34 @@
 dayOfYear(x)
 }
 
-
 \arguments{
   
-    \item{x}{
-        an object of class \code{timeDate}.
-        }  
+  \item{x}{
+    an object of class \code{"timeDate"}.
+  }  
        
 }
 
 
 \value{
 
-
-    returns the day count as integer value starting January, 1st. 
+  vector of integers representing the number of days since the beginning
+  of the year. For January, 1st it is one.
 
 }
 
 
 \seealso{
-
-    \code{\link{dayOfWeek}}
+  \code{\link{dayOfWeek}}
 }
 
 
 \examples{  
 ## timeCalendar -  
-   tC = timeCalendar()
+   tC = timeCalendar(2022)
        
 ## The days of the Year:
    dayOfYear(tC)
 }
 
-
 \keyword{chron}
-
