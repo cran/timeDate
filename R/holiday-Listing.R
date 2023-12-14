@@ -22,10 +22,6 @@
 #  .holidayList              Prints all public and ecclestical holidays
 ################################################################################
 
-# ---------------------------------------------------------------------------- #
-# Roxygen Tags
-#' @export
-# ---------------------------------------------------------------------------- #
 listHolidays <-
     function(pattern = ".*")
 {
@@ -81,7 +77,7 @@ listHolidays <-
         "GBEarlyMayBankHoliday", # was: "GBMayDay",
         "GBSpringBankHoliday",   # was: "GBBankHoliday"
         "GBSummerBankHoliday",
-        "GBMilleniumDay",
+        "specialHolidayGB", # new 2023-12-08
         "DEAscension",
         "DECorpusChristi",
         "DEGermanUnity",
@@ -144,7 +140,9 @@ listHolidays <-
         "JPMarineDay",
         "JPUmiNoHi",
         "JPRespectForTheAgedDay",
-        "JPKeirouNOhi",
+        ## "JPKeirouNOhi", # 2023-11-27 deprecated
+        "JPKeirouNoHi",    # 2023-11-27 new, replaces the above
+        "JPMountainDay",      # 2023-11-27 new   
         "JPAutumnalEquinox",
         "JPShuubunNoHi",
         "JPHealthandSportsDay",
@@ -165,7 +163,3 @@ listHolidays <-
 }
 
 ################################################################################
-
-
-
-

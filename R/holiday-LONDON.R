@@ -20,71 +20,33 @@
 #  holidayLONDON             Returns holidays for British Bank Holidays
 ################################################################################
 
-# ---------------------------------------------------------------------------- #
-# Roxygen Tags
-#' @export
-# ---------------------------------------------------------------------------- #
 holidayLONDON <- function (year = getRmetricsOptions("currentYear")) {
+    ## function implemented by Menon Murali;
+    ## updated, corrected and refactored by GNB
 
-    # function implemented by Menon Murali
+    ## ignoring year <= 1833 as there wereno official holidays then
+    y1834to1870 <- year[year >= 1834 & year <= 1870]
+    y1871toInf <- year[year >= 1871]
 
-    holidays <- NULL
-    for (y in year) {
-        if (y >= 1834 & y <= 1870) {
-            # 1 May, 1 November, Good Friday and Christmas are the
-            # only England Bank Holidays
-            dts <- c(paste0(y, "-05-01"), paste0(y, "-11-01"))
-            holidays <- c(holidays, dts, as.character(GoodFriday(y)),
-                          as.character(ChristmasDay(y)))
-        }
-        if (y >= 1871) {
-            # Good Friday and Easter Monday
-            holidays <- c(holidays, as.character(GoodFriday(y)),
-                          as.character(EasterMonday(y)))
-            if (y <= 1964) {
-                # Whit Monday, which is exactly 50 days after Easter
-                holidays <- c(holidays, as.character(Easter(y, 50)))
-                # First Monday in August
-                lon <- timeDate(.on.or.after(y, 8, 1, 1), zone = "London",
-                                FinCenter = "Europe/London")
-                holidays <- c(holidays, as.character(lon))
-            } else {
-                # Last Monday in May replaces Whit Monday
-                if (y == 2002) {
-                    # Last Monday in May holiday moved to June 3, and
-                    # Queen's Jubilee on June 4
-                    dts <- c(paste0(y, "-06-03"),
-                             paste0(y, "-06-04"))
-                    holidays <- c(holidays, dts)
-                } else if (y == 2012) {
-                    # Last Monday in May holiday moved to June 4, and
-                    # Queen's Diamond Jubilee on June 5
-                    dts <- c(paste0(y, "-06-04"),
-                             paste0(y, "-06-05"))
-                    holidays <- c(holidays, dts)
-                } else if (y == 2022) {
-                    ## Last Monday in May (i.e., Spring Bank Holiday) holiday moved to June 2,
-                    ## Unique Bank holidays:
-                    ##     Queen's Diamond Jubilee.
-                    ##     State Funeral of Queen Elizabeth II
-                    dts <- c(paste0(y, "-06-02"), # Thursday, Spring bank holiday
-                             paste0(y, "-06-03"), # Friday, Platinum Jubilee bank holiday
-                             paste0(y, "-09-19")  # Bank Holiday for the State Funeral of
-                                                  # Queen Elizabeth II
-                             )
-                    holidays <- c(holidays, dts)
-                } else {
-                    lon <- timeDate(.last.of.nday(y, 5, 31, 1), zone = "London",
-                                    FinCenter = "Europe/London")
-                    holidays <- c(holidays, as.character(lon))
-                }
+    holidays <- list() # 2023-05-12 GNB was: NULL
 
-                # Last Monday in August replaces first Monday in August
-                lon <- timeDate(.last.of.nday(y, 8, 31, 1), zone = "London",
-                                FinCenter = "Europe/London")
-                holidays <- c(holidays, as.character(lon))
-            }
+    if(length(y1834to1870)) {
+        ## 1 May, 1 November, Good Friday and Christmas are the
+        ## only England Bank Holidays
+        holidays <- list(holidays,
+                         paste0(y1834to1870, "-05-01"),
+                         paste0(y1834to1870, "-11-01"),
+                         GoodFriday(y1834to1870, ""),
+                         ChristmasDay(y1834to1870, ""))
+    }
 
+    if(length(y1871toInf)) {
+        holidays <- list(holidays,
+                         GoodFriday(y1871toInf, ""),
+                         EasterMonday(y1871toInf, ""),
+                         GBSpringBankHoliday(y1871toInf, ""),
+                         GBSummerBankHoliday(y1871toInf, "")
+                         )
             # Not entirely sure when Mon/Tue began to be given as
             # holiday when Christmas/Boxing Day fell on
             # Saturday/Sun. I'm assuming this was after the 1971
@@ -95,86 +57,75 @@ holidayLONDON <- function (year = getRmetricsOptions("currentYear")) {
             ##
             ##      The 1971 act declares 27th Dec to be bank holiday if 25th or
             ##      26th Dec is Sat or Sun but doesn't make provisions for 28th
-            ##      Dec. But 28th Dec seems to have been been declared BH by
+            ##      Dec. But 28th Dec seems to have been declared BH by
             ##      Royal proclamations in all years ever since. ("seems"
             ##      because I haven't seen the proclamations and am not sure if
             ##      the calendars online for 40-50 years ago do not compute them
             ##      assuming that this is by definition)
-            ##      
-            if (y < 1970) {
-                # Christmas and Boxing Day
-                holidays <- c(holidays, as.character(ChristmasDay(y)),
-                              as.character(BoxingDay(y)))
-            } else {
-                posix1 <- as.POSIXlt(ChristmasDay(y))
-                ## If Christmas on Saturday or Sunday, then the following Monday
-                ## and Tuesday are holidays
-                if (posix1$wday == 0) { # Christmas Sunday
-                    holidays <- c(holidays,
-                                  as.character(ChristmasDay(y) + (1 : 2) * 86400))
-                } else if (posix1$wday == 6) { # Christmas Saturday
-                    holidays <- c(holidays,
-                                  as.character(ChristmasDay(y) + (2 : 3) * 86400))
-                } else if (posix1$wday == 5) {# Christmas Friday
-                    # the next Monday is a holiday
-                    holidays <- c(holidays,
-                                  as.character(ChristmasDay(y) + c(0, 3) * 86400))
-                } else {
-                    holidays <- c(holidays, as.character(ChristmasDay(y)),
-                                  as.character(BoxingDay(y)))
-                }
-            }
-
-            if (y >= 1974) {
-                # New Year's Day: if it falls on Sat/Sun, then is
-                # moved to following Monday
-                posix1 <- as.POSIXlt(NewYearsDay(y))
-                if (posix1$wday == 0 | posix1$wday == 6) {
-                    lon <- timeDate(.on.or.after(y, 1, 1, 1), zone = "London",
-                                    FinCenter = "Europe/London")
-                    holidays <- c(holidays, as.character(lon))
-                } else {
-                    holidays <- c(holidays, as.character(posix1))
-                }
-            }
-            if (y >= 1978) {
-                # First Monday of May became a bank holiday
-                if (y == 1995 || y == 2020) {
-                    ## Was moved to May 8 to celebrate VE Day's 75th/50th anniversary
-                    dts <- paste0(y, "-05-08")
-                    holidays <- c(holidays, dts)
-                } else {
-                    lon <- timeDate(.on.or.after(y, 5, 1, 1), zone = "London",
-                                    FinCenter = "Europe/London")
-                    holidays <- c(holidays, as.character(lon))
-                }
-
-                ## special one-off bank holidays
-                if (y == 1981) {
-                    ## Royal wedding was a public holiday
-                    dts <- paste0(y, "-07-29")
-                    holidays <- c(holidays, dts)
-                } else if (y == 1999) {
-                    ## UK millenum day
-                    dts <- format(GBMilleniumDay(), format = "%Y-%m-%d")
-                    holidays <- c(holidays, dts)
-                } else if (y == 2011) {
-                    ## Royal wedding declared a public holiday
-                    dts <- paste0(y, "-04-29")
-                    holidays <- c(holidays, dts)
-                } else if (y == 2023) {
-                    ## Bank holiday for the coronation of King Charles III
-                    dts <- paste0(y, "-05-08")
-                    holidays <- c(holidays, dts)
-                }
-                
-            }
+            ##
+            ## Christmas and Boxing Day - add following Monday and/or Tuesday if any falls in
+            ##      the weekend
+            ##
+            ## GNB: the logic can be simplified by adding Christmas and Boxing days and the
+            ##      Mon/Tue where necessary. Sat/Sun are omitted at the end anyway.
+        ## borderline 1969 needs checking
+        y1871to1969 <- y1871toInf[flag1969 <- y1871toInf <= 1969]
+        y1970toInf  <- y1871toInf[!flag1969]
+        
+        if(length(y1871to1969)) {
+            holidays <- list(holidays,
+                             ChristmasDay(y1871to1969, ""),
+                             BoxingDay(y1871to1969, "")
+                             )
         }
+
+        if(length(y1970toInf)) {
+            xmas <- ChristmasDay(y1970toInf)
+            posix1 <- as.POSIXlt(xmas)
+            wd <- as.character(posix1$wday)
+            f <- function(x, y) {
+                switch(x,
+                       ## (posix1$wday == 0)  # Christmas on Sunday
+                       "0" =  as.character(ChristmasDay(y) + (1 : 2) * 86400),
+                       
+                       ## (posix1$wday == 6) # Christmas on Saturday
+                       "6" = as.character(ChristmasDay(y) + (2 : 3) * 86400),
+                                   
+                       ## posix1$wday == 5) # Christmas on Friday
+                       ##     the next Monday is a holiday
+                       "5" = as.character(ChristmasDay(y) + c(0, 3) * 86400),
+                       
+                       ## default 1,2,3,4
+                       list(ChristmasDay(y, ""), BoxingDay(y, ""))
+                       )
+            }
+            holidays <- list(holidays,
+                             .mapply(f, list(wd, y1970toInf), NULL)
+                             )
+        }
+
+        y1974toInf  <- y1970toInf[y1970toInf >= 1974]
+        if(length(y1974toInf)) {
+            ## New Year's Day: if it falls on Sat/Sun, then is
+            ## moved to following Monday
+            posix1 <- as.POSIXlt(NewYearsDay(y1974toInf))
+            weekend <- posix1$wday == 0 | posix1$wday == 6
+        
+            holidays <- list(holidays,
+                             format..sdate(.on.or.after(y1974toInf[weekend], 1, 1, 1)),
+                             NewYearsDay(y1974toInf[!weekend], "")
+                             )
+        }
+
+        ## Early May Bank Holiday year >= 1978
+        holidays <- list(holidays,
+                         GBEarlyMayBankHoliday(y1974toInf[y1974toInf >= 1978], ""),
+                         specialHolidayGB(y1974toInf, "")
+                         )
     }
 
-    holidays <- sort(holidays)
-    ans <- timeDate(format(holidays), zone = "London",
-                    FinCenter = "Europe/London")
+    holidays <- sort(unlist(holidays))
+    ans <- timeDate(holidays, zone = "London", FinCenter = "Europe/London")
     posix1 <- as.POSIXlt(ans, tz = "GMT")
     ans[!(posix1$wday == 0 | posix1$wday == 6)] # Remove any Saturdays/Sundays
 }

@@ -1,4 +1,3 @@
-
 # This R package is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Library General Public
 # License as published by the Free Software Foundation; either
@@ -30,12 +29,9 @@
 #  strptimeDate          Creates for character time stamps a 'timeDate' object
 ################################################################################
 
-# ---------------------------------------------------------------------------- #
-# Roxygen Tags
-#' @export
-# ---------------------------------------------------------------------------- #
+
 setGeneric("timeDate",
-    function(charvec, format = NULL, zone = "", FinCenter = "", ...)
+           function(charvec, format = NULL, zone = "", FinCenter = "", ...)
 {
     # A function implemented by Yohan Chalabi and Diethelm Wuertz
 
@@ -79,13 +75,8 @@ setGeneric("timeDate",
 }
 )
 
-
-# ---------------------------------------------------------------------------- #
-# Roxygen Tags
-#' @export
-# ---------------------------------------------------------------------------- #
 setMethod("timeDate", "character",
-    function(charvec, format = NULL, zone = "", FinCenter = "", dst_gap = "+")
+          function(charvec, format = NULL, zone = "", FinCenter = "", dst_gap = "+")
 {
     # Settings and Checks:
     if (zone == "")
@@ -99,7 +90,11 @@ setMethod("timeDate", "character",
 
     # Autodetect Format :
     if (is.null(format))
-        format <- whichFormat(charvec[1])
+        ## 2023-12-09 GNB:
+        ##     whichFormat(charvec[1])
+        ## fails if charvec[1] is NA, even if otherwise the strings are uniform,
+        ## call whichFormat with the whole vector:
+        format <- whichFormat(charvec)
     if (format %in% c("unknown", "counts")) #-> "counts" catch potential problems from timeSeries
         return(timeDate(NA, zone = zone, FinCenter = FinCenter))
 
@@ -128,10 +123,6 @@ setMethod("timeDate", "character",
 )
 
 
-# ---------------------------------------------------------------------------- #
-# Roxygen Tags
-#' @export
-# ---------------------------------------------------------------------------- #
 setMethod("timeDate", "timeDate",
     function(charvec, format = NULL, zone = "", FinCenter = "", dst_gap = "+")
 {
@@ -150,10 +141,6 @@ setMethod("timeDate", "timeDate",
 )
 
 
-# ---------------------------------------------------------------------------- #
-# Roxygen Tags
-#' @export
-# ---------------------------------------------------------------------------- #
 setMethod("timeDate", "POSIXt",
     function(charvec, format = NULL, zone = "", FinCenter = "")
 {
@@ -182,10 +169,6 @@ setMethod("timeDate", "POSIXt",
 )
 
 
-# ---------------------------------------------------------------------------- #
-# Roxygen Tags
-#' @export
-# ---------------------------------------------------------------------------- #
 setMethod("timeDate", "Date",
     function(charvec, format = NULL, zone = "", FinCenter = "", dst_gap = "+")
 {
@@ -213,10 +196,6 @@ setMethod("timeDate", "Date",
 })
 
 
-# ---------------------------------------------------------------------------- #
-# Roxygen Tags
-#' @export
-# ---------------------------------------------------------------------------- #
 setMethod("timeDate", "numeric",
     function(charvec, format = NULL, zone = "", FinCenter = "")
 {
@@ -246,10 +225,6 @@ setMethod("timeDate", "numeric",
 )
 
 
-# ---------------------------------------------------------------------------- #
-# Roxygen Tags
-#' @export
-# ---------------------------------------------------------------------------- #
 setMethod("timeDate", "missing",
     function(charvec, format = NULL, zone = "", FinCenter = "")
 {
@@ -261,10 +236,6 @@ setMethod("timeDate", "missing",
 )
 
 
-# ---------------------------------------------------------------------------- #
-# Roxygen Tags
-#' @export
-# ---------------------------------------------------------------------------- #
 setMethod("timeDate", "ANY",
     function(charvec, format = NULL, zone = "", FinCenter = "", dst_gap = "+")
 {
@@ -278,9 +249,6 @@ setMethod("timeDate", "ANY",
 
 ################################################################################
 
-# ---------------------------------------------------------------------------- #
-# Roxygen Tags
-# ---------------------------------------------------------------------------- #
 .formatFinCenterNum <-
 function(num, FinCenter, type = c("gmt2any", "any2gmt"), dst_gap = c("+", "-", "NA", ""))
 {
@@ -395,10 +363,23 @@ function(num, FinCenter, type = c("gmt2any", "any2gmt"), dst_gap = c("+", "-", "
             ## GNB: check for non-existent DST times at FinCenter
             ##
             ## TODO: handle the case when offSetIdx contains 1
+            ## DONE 2023-12-06 handle the case when offSetIdx contains 1
+            ##    was giving error, eg for
+            ##        holidayLONDON(1915:1917)
+            ##    but not for the individual years, these were ok:
+            ##        holidayLONDON(1915)
+            ##        holidayLONDON(1916)
+            ##        holidayLONDON(1917)
+            ## 
+            ## TODO: check the fix? I have somewhat forgotten the details
+            offSetIdx_minus1 <- offSetIdx - 1
+            if(any(offSetIdx_minus1 == 0))
+               offSetIdx_minus1[offSetIdx_minus1 == 0] <- 1
 
             #dst_skip <- dst.list$offSet[offSetIdx][indx] - dst.list$offSet[offSetIdx - 1][indx]
             #adjust <- dst.list$offSet[offSetIdx][indx]
-            adjust <- dst.list$offSet[offSetIdx][indx] - dst.list$offSet[offSetIdx - 1][indx]
+            adjust <- dst.list$offSet[offSetIdx][indx] -
+                          dst.list$offSet[offSetIdx_minus1][indx]
             #adjust <- 3600
 
             wrk <- num[indx] - adjust
@@ -443,87 +424,79 @@ function(num, FinCenter, type = c("gmt2any", "any2gmt"), dst_gap = c("+", "-", "
 }
 
 
-# ---------------------------------------------------------------------------- #
-# Roxygen Tags
-#' @export
-# ---------------------------------------------------------------------------- #
-.formatFinCenter <-
-function(charvec, FinCenter, type = c("gmt2any", "any2gmt"))
-{
-    # A function implemented by Diethelm Wuertz
-    #   thanks to contributions from Martin Maechler
-
-    # Description:
-    #   Internal function used by function timeDate()
-
-    if (FinCenter == "GMT" || FinCenter == "UTC")
-        return(charvec)
-
-    ## else start working:
-    type <- match.arg(type)
-    signum <- switch(type,
-                     "gmt2any" = +1,
-                     "any2gmt" = -1)
-    ##  otherwise give error
-
-
-    # Get the DST list from the database:
-    try <- try(dst.list <- rulesFinCenter(FinCenter), silent = TRUE)
-    if (inherits(try, "try-error"))
-        stop(gettextf("'%s' is not a valid FinCenter.", FinCenter))
-    # Update list with last entry:
-    z = as.matrix(dst.list)
-    z[dim(z)[1], ]
-    vec1 = as.vector(c(z[, 1], "2099-01-01 00:00:00"))
-    vec2 = as.vector(c(z[, 2], rev(z[, 2])[1]))
-    dst.list = data.frame(ruleChanges = as.character(vec1),
-    offSet = as.integer(vec2))
-    # Extract the dates when DST was changed:
-    dst.dates = as.character(dst.list[, 1])
-    # Extract the Offsets to GMT
-    dst.offsets = as.character(dst.list[, 2])
-    # The new dates ar the charvec's:
-    new.dates = charvec
-    # The new offsets are still unknown:
-    new.offsets = rep(NA, length(charvec))
-    # Combine all Dates and Offsets:
-    dates = c(dst.dates, new.dates)
-    offsets = c(dst.offsets, new.offsets)
-    # The number of Offsets:
-    n = length(dates)
-    # Order the Dates:
-    o = order(dates)
-    # Dates and Offsets in the right order:
-    o.dates = dates[o]
-    o.offsets = offsets[o]
-    # The points at which we have to determine the offsets
-    xout = (1:n)[is.na(o.offsets)]
-    # The date indexes:
-    x = (1:n)[-xout]
-    # The corresponding offsets
-    y = o.offsets[x]
-    # The new offsets:
-    yout = approx(x, y , xout, method = "constant")$y
-    # All dates:
-    m = length(dst.dates)
-    # Put them in the right order:
-    # Added DW: 2005-05-27
-    idx = order(o[which(o>m)])
-    offSets = yout[idx]
-    dt = strptime(charvec, "%Y-%m-%d %H:%M:%S", tz = "GMT")
-
-    ## Return Value:
-    format(dt + signum * offSets, format="%Y-%m-%d %H:%M:%S")
-}
+## 2023-01-08 GNB: removed .formatFinCenter() since no longer used.
+##
+## .formatFinCenter <-
+## function(charvec, FinCenter, type = c("gmt2any", "any2gmt"))
+## {
+##     # A function implemented by Diethelm Wuertz
+##     #   thanks to contributions from Martin Maechler
+## 
+##     # Description:
+##     #   Internal function used by function timeDate()
+## 
+##     if (FinCenter == "GMT" || FinCenter == "UTC")
+##         return(charvec)
+## 
+##     ## else start working:
+##     type <- match.arg(type)
+##     signum <- switch(type,
+##                      "gmt2any" = +1,
+##                      "any2gmt" = -1)
+##     ##  otherwise give error
+## 
+## 
+##     # Get the DST list from the database:
+##     try <- try(dst.list <- rulesFinCenter(FinCenter), silent = TRUE)
+##     if (inherits(try, "try-error"))
+##         stop(gettextf("'%s' is not a valid FinCenter.", FinCenter))
+##     # Update list with last entry:
+##     z = as.matrix(dst.list)
+##     z[dim(z)[1], ]
+##     vec1 = as.vector(c(z[, 1], "2099-01-01 00:00:00"))
+##     vec2 = as.vector(c(z[, 2], rev(z[, 2])[1]))
+##     dst.list = data.frame(ruleChanges = as.character(vec1),
+##     offSet = as.integer(vec2))
+##     # Extract the dates when DST was changed:
+##     dst.dates = as.character(dst.list[, 1])
+##     # Extract the Offsets to GMT
+##     dst.offsets = as.character(dst.list[, 2])
+##     # The new dates ar the charvec's:
+##     new.dates = charvec
+##     # The new offsets are still unknown:
+##     new.offsets = rep(NA, length(charvec))
+##     # Combine all Dates and Offsets:
+##     dates = c(dst.dates, new.dates)
+##     offsets = c(dst.offsets, new.offsets)
+##     # The number of Offsets:
+##     n = length(dates)
+##     # Order the Dates:
+##     o = order(dates)
+##     # Dates and Offsets in the right order:
+##     o.dates = dates[o]
+##     o.offsets = offsets[o]
+##     # The points at which we have to determine the offsets
+##     xout = (1:n)[is.na(o.offsets)]
+##     # The date indexes:
+##     x = (1:n)[-xout]
+##     # The corresponding offsets
+##     y = o.offsets[x]
+##     # The new offsets:
+##     yout = approx(x, y , xout, method = "constant")$y
+##     # All dates:
+##     m = length(dst.dates)
+##     # Put them in the right order:
+##     # Added DW: 2005-05-27
+##     idx = order(o[which(o>m)])
+##     offSets = yout[idx]
+##     dt = strptime(charvec, "%Y-%m-%d %H:%M:%S", tz = "GMT")
+## 
+##     ## Return Value:
+##     format(dt + signum * offSets, format="%Y-%m-%d %H:%M:%S")
+## }
 
 
-# ---------------------------------------------------------------------------- #
-# Roxygen Tags
-#' @export
-# ---------------------------------------------------------------------------- #
-strptimeDate <-
-function(x, format = whichFormat(x), tz = "")
-{
+strptimeDate <- function(x, format = whichFormat(x), tz = "") {
     # A function implemented by Diethelm Wuertz
 
     # Description:
@@ -551,6 +524,4 @@ function(x, format = whichFormat(x), tz = "")
     ans
 }
 
-
 ################################################################################
-

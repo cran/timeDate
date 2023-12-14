@@ -75,9 +75,6 @@ function()
     # Easter:
     Easter()
 
-    # Old Function stoll available for compatibility
-    timeDate:::.easter()
-
     # Return Value:
     return()
 }
@@ -96,6 +93,14 @@ function()
     return()
 }
 
+## author: GNB
+test.holidaysLONDON <- function() {
+    ## TODO: temporary while refactoring holidayLONDON,
+    ##       include small range(s) for submission.
+    lon_all <- holidayLONDON(1834:2024)
+    fn <- system.file("unitTests", "holidayLONDON_1834_to_2024_corrected.rds",
+                      package = "timeDate")
+    identical(lon_all, readRDS(fn))
+}
 
 ################################################################################
-

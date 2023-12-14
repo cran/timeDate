@@ -1,4 +1,3 @@
-
 # This R package is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Library General Public
 # License as published by the Free Software Foundation; either
@@ -18,17 +17,9 @@
 ################################################################################
 # FUNCTION:                 DESCRIPTION:
 #  whichFormat               Returns format string called by 'timeDate'
-# DEPRECATED:
-#  .whichFormat
 ################################################################################
 
-# ---------------------------------------------------------------------------- #
-# Roxygen Tags
-#' @export
-# ---------------------------------------------------------------------------- #
-whichFormat <-
-    function(charvec, silent = FALSE)
-{
+whichFormat <- function(charvec, silent = FALSE) {
     # A function implemented by Diethelm Wuertz
 
     # Charvec String:
@@ -43,6 +34,12 @@ whichFormat <-
     ## All this assume that charvec is very uniform so we only look at the entry [1]  !?????
     ## rather, e.g.,   NCHAR <- max(nchar(ch <- head(charvec)))  and the continue looking at all ch[] ?
     c1 <- charvec[1]
+    ## 2023-12-09 GNB:
+    ##    c1 = NA causes error 'missing value where TRUE/FALSE needed' further below
+    ##    Hence check for that. There is at least one non-NA at this point, so:
+    if(is.na(c1))
+        c1 <- charvec[!is.na(charvec)][1]
+    
     NCHAR <- nchar(c1)
     SUBSTR <- substring(c1, 5, 5) == "-"
 
@@ -81,19 +78,4 @@ whichFormat <-
     "unknown"
 }
 
-
-# ---------------------------------------------------------------------------- #
-# Roxygen Tags
-#' @export
-# ---------------------------------------------------------------------------- #
-.whichFormat <- whichFormat
-if(FALSE) ## [MM]: if you're serious about deprecation, then rather use
-.whichFormat <- function(charvec, silent = FALSE) {
-    .Deprecated()
-    whichFormat(charvec, silent)
-}
-
-
-
 ################################################################################
-
