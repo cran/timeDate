@@ -14,26 +14,24 @@
        
 }
 
-
 \usage{
 \method{window}{timeDate}(x, start , end, \dots)
 
 \method{cut}{timeDate}(x, from , to, \dots)
 }
 
-
 \arguments{
   
-  \item{from, to}{
-    starting date, required, and end date, optional. If supplied 
-    \code{to} must be after \code{from}.
+  \item{x}{
+    an object of class \code{"timeDate"}.
   }
   \item{start, end}{
     starting date, required, and end date, optional. If supplied 
     \code{to} must be after \code{from}.
   }
-  \item{x}{
-    an object of class \code{"timeDate"}.
+  \item{from, to}{
+    starting date, required, and end date, optional. If supplied 
+    \code{to} must be after \code{from}.
   }
   \item{\dots}{
     arguments passed to other methods.
@@ -50,23 +48,22 @@
   % :TODO:
   
   The method for \code{cut} has been discouraged in the sources for a
-  long time (with a recommendation to use \code{window}). It will be
-  officially deprecated in the next release and later removed or
-  replaced by a method that is consistent with the methods for
-  \code{cut} in base R,
+  long time (with a recommendation to use \code{window}). It was
+  officially deprecated in v4032.109 and will be removed or replaced by
+  a method that is consistent with the methods for \code{cut} in base R,
 
 }
 
 \examples{  
-## timeCalendar - 
-   # Monthly Dates in Current Year:
-   tS = timeCalendar()
-   tS 
+## timeCalendar
+# monthly dates in current year
+tS = timeCalendar()
+tS 
    
-## window -
-   # 2nd Quarter Window:
-   tS[4:6]
-   window(tS, tS[4], tS[6])
+## window
+# 2nd quarter window:
+tS[4:6]
+window(tS, tS[4], tS[6])
 }
 
 \keyword{chron}

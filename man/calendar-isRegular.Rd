@@ -4,13 +4,15 @@
 \alias{isDaily}
 \alias{isMonthly}
 \alias{isQuarterly}
+
 \alias{frequency}
+\alias{frequency.timeDate}
+\alias{frequency,timeDate-method}
 
 \alias{isDaily,timeDate-method}
 \alias{isMonthly,timeDate-method}
 \alias{isQuarterly,timeDate-method}
 \alias{isRegular,timeDate-method}
-\alias{frequency,timeDate-method}
 
 
 
@@ -24,7 +26,6 @@
   
 }
 
-
 \usage{
 \S4method{isDaily}{timeDate}(x)
 \S4method{isMonthly}{timeDate}(x)
@@ -32,20 +33,17 @@
 
 \S4method{isRegular}{timeDate}(x)
 
-\S4method{frequency}{timeDate}(x, \dots)
+\method{frequency}{timeDate}(x, \dots)
 }
 
 \arguments{
-
   \item{x}{  
     an object of class \code{"timeDate"}.
   }
   \item{\dots}{
     arguments to be passed.
   }
-  
 }
-
 
 \details{
 
@@ -67,7 +65,6 @@
     
 }
 
-
 \value{
 
   The \code{is*} functions return \code{TRUE} or \code{FALSE} depending 
@@ -79,7 +76,14 @@
 }
 
 \examples{
-## None
+tC <- timeCalendar(2023)
+tC
+isRegular(tC)
+frequency(tC)
+
+isMonthly(tC)
+isQuarterly(tC)
+isDaily(tC)
 }
 
 \keyword{chron}

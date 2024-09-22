@@ -127,6 +127,7 @@
 \alias{JPTennouTanjyouBi}
 \alias{JPBankHolidayDec31}
 
+\alias{InternationalWomensDay}
 
 
 \title{Public and ecclesiastical holidays}
@@ -498,7 +499,9 @@ JPTennouTanjyouBi(year = getRmetricsOptions("currentYear"),
 
 JPBankHolidayDec31(year = getRmetricsOptions("currentYear"), 
                    value = "timeDate", na_drop = TRUE, \dots)
-}
+
+InternationalWomensDay(year = getRmetricsOptions("currentYear"),
+                       value = "timeDate", na_drop = TRUE, ...)}
 
 
 \arguments{
@@ -593,12 +596,12 @@ JPBankHolidayDec31(year = getRmetricsOptions("currentYear"),
 
 \examples{
 ## CHSechselaeuten -
-   # Sechselaeuten a half Day Bank Holiday in Switzerland
-   CHSechselaeuten(2000:2010)
-   CHSechselaeuten(getRmetricsOptions("currentYear"))
+# Sechselaeuten a half Day Bank Holiday in Switzerland
+CHSechselaeuten(2000:2010)
+CHSechselaeuten(getRmetricsOptions("currentYear"))
 
 ## German Unification Day:
-   DEGermanUnity(getRmetricsOptions("currentYear"))
+DEGermanUnity(getRmetricsOptions("currentYear"))
 }
 
 \keyword{chron}

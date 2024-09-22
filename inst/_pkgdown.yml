@@ -20,6 +20,7 @@ reference:
       - timeSequence
       - timeCalendar
       - as.timeDate
+      - coerceToOther
       - timeDateMathOps
       - difftimeDate
       - Sys.timeDate
@@ -100,6 +101,8 @@ reference:
       - holidayNYSE
       - holidayTSX
       - holidayZURICH
+      - earlyCloseNYSE
+      - specialHolidayGB
   - title: "Other holiday related"
     contents:
       - Easter   

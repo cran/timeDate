@@ -1,6 +1,7 @@
 \name{timeSequence}
 \alias{timeSequence}
 
+\alias{seq}
 \alias{seq.timeDate}
 
 
@@ -9,9 +10,7 @@
 }
 
 \description{
-
   Create a regularly spaced object of class \code{"timeDate"}.
-
 }
 
 \usage{
@@ -28,13 +27,14 @@ timeSequence(from, to = Sys.timeDate(), by, length.out = NULL,
   }
   \item{by}{
     \itemize{
-      \item a character string, containing one of "sec", "min",
-      "hour", "day", "week", "month" or "year". This can
-      optionally be preceded by an integer and a
-      space, or followed by "s".
+      
+      \item a character string, containing one of "sec", "min", "hour",
+      "day", "week", "month" or "year". This can optionally be preceded
+      by an integer and a space, or followed by "s".
+
       \item character string "quarter" that is equivalent to "3 months".
-      \item A number, taken to be in seconds.
-      \item A object of class 'difftime'
+      \item a number, taken to be in seconds.
+      \item an object of class 'difftime'.
 
       \item character string \code{"DSTday"} gives a sequence taken at
       the same clock time every day. Note that on the days when the DST
@@ -68,9 +68,9 @@ timeSequence(from, to = Sys.timeDate(), by, length.out = NULL,
 }
 
 \examples{
-## timeSequence -
+## timeSequence
 
-## autodetection of format :
+## autodetection of format
 (t1 <- timeSequence(from = "2004-03-12", to = "2004-04-11"))
 
 stopifnot( ## different formats even:

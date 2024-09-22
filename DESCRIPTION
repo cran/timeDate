@@ -1,6 +1,6 @@
 Package: timeDate
 Title: Rmetrics - Chronological and Calendar Objects
-Version: 4032.109
+Version: 4041.110
 Authors@R: c(person("Diethelm", "Wuertz", role="aut", comment = "original code")
 	   , person("Tobias", "Setz", role = c("aut"), email = "tobias.setz@live.com")
 	   , person("Yohan", "Chalabi", role = "aut")
@@ -28,7 +28,7 @@ URL: https://geobosh.github.io/timeDateDoc/ (doc),
         (devel), https://www.rmetrics.org
 BugReports: https://r-forge.r-project.org/projects/rmetrics
 NeedsCompilation: no
-Packaged: 2023-12-14 11:25:31 UTC; georgi
+Packaged: 2024-09-16 11:17:35 UTC; georgi
 Author: Diethelm Wuertz [aut] (original code),
   Tobias Setz [aut],
   Yohan Chalabi [aut],
@@ -37,4 +37,4 @@ Author: Diethelm Wuertz [aut] (original code),
   Georgi N. Boshnakov [cre, aut]
 Maintainer: Georgi N. Boshnakov <georgi.boshnakov@manchester.ac.uk>
 Repository: CRAN
-Date/Publication: 2023-12-14 15:30:02 UTC
+Date/Publication: 2024-09-22 10:10:17 UTC
