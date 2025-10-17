@@ -27,21 +27,19 @@ reference:
       - sample
       - isRegular
       - blockStart
-  - title: "Time/date utilities"
-    contents:
-      - midnightStandard
-      - whichFormat
-  - title: "Statistical functions"
-    contents:
-      - skewness
-      - kurtosis
   - title: "Financial centers"
     contents:
       - finCenter
       - listFinCenter
       - rulesFinCenter
+  - title: "Time intervals"
+    contents:
+      - "timeInterval-class"
+      - "timeInterval-methods"
+      - "%in_int%"
   - title: "Unclasssified"
     contents:
+      - pasteMat
       - .endpoints
   - title: "Base-R related"
     contents:
@@ -51,6 +49,7 @@ reference:
       - rep
       - rev
       - round
+      - timeCeiling
       - sort
       - start
       - subset
@@ -66,16 +65,16 @@ reference:
   - title: "Calendar related"
     contents:
       - julian
+      - isBizday
+      - isHoliday
+      - isWeekday
+      - isWeekend
       - dayOfWeek
       - dayOfYear
       - timeFirstDayInMonth
       - timeLastDayInMonth
       - timeFirstDayInQuarter
       - timeLastDayInQuarter 
-      - isBizday
-      - isHoliday
-      - isWeekday
-      - isWeekend
       - timeNthNdayInMonth
       - timeLastNdayInMonth
       - timeNdayOnOrAfter
@@ -92,6 +91,14 @@ reference:
       - currentYear
       - myUnits
       - myFinCenter
+  - title: "Time/date utilities"
+    contents:
+      - midnightStandard
+      - whichFormat
+  - title: "Statistical functions"
+    contents:
+      - skewness
+      - kurtosis
   - title: "Holiday lists"
     contents:
       - holiday       
@@ -150,7 +157,6 @@ reference:
       - GBEarlyMayBankHoliday
       - GBSpringBankHoliday
       - GBSummerBankHoliday
-      - GBMilleniumDay
       - DEAscension
       - DECorpusChristi
       - DEGermanUnity
@@ -213,7 +219,7 @@ reference:
       - JPMarineDay
       - JPUmiNoHi
       - JPRespectForTheAgedDay
-      - JPKeirouNOhi
+      - JPKeirouNoHi
       - JPAutumnalEquinox
       - JPShuubunNoHi
       - JPHealthandSportsDay

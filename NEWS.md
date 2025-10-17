@@ -1,24 +1,72 @@
+# timeDate 4051.111
+
+- new class `"timeInterval"` represents time intervals. Methods are defined for
+  computing unions, intersections, complement and set difference of
+  `"timeInterval"` objects, as well as checking whether dates and time intervals
+  are contained in such objects. See `?timeInterval`, `class ? timeInterval`,
+  `?in_int`. Not systematically tested yet.
+
+- the prototype of class "timeDate" now sets admissible values for the
+  slots. The previous defaults (e.g., `character(0)` for slots 'format' and
+  'FinCenter') were causing minor problems in rare cases.
+
+- streamlined the initialisation method of "timeDate". This changes slot
+  'format' in some inconsequential cases involving `Inf` (e.g.,
+  `timeDate(.POSIXct(-Inf))@format` was `"%Y-%m-%d"` but now is 
+  `"%Y-%m-%d %H:%M:%S"`, which even seems more appropriate).
+
+- the `"timeDate"` methods for `trunc` and `round` now support also units
+  "secs", "months" and "years". Previously only "days", "hours", "mins" were
+  supported.
+
+- The functions `timeLastDayInMonth`, `timeFirstDayInMonth`,
+  `timeLastDayInQuarter`, `timeFirstDayInQuarter` `timeNthNdayInMonth`,
+  `timeLastNdayInMonth`, `timeNdayOnOrAfter` and `timeNdayOnOrBefore` are now
+  documented to accept `timeDate`, `POSIXlt`and other time-date objects (and
+  take into account their time zone). Previously, the first argument of these
+  functions was documented to be a character vector but they were silently
+  accepting time-date without checking the associated time zone. This could lead
+  to wrong results in some cases.
+
+- new function `pasteMat`, like `paste` but doesn't convert `NA`s to the string
+  `"NA"` and keeps `NA`s in the output. Also, argument `sep` can be a
+  vector. Can be useful when creating date-times from individual pieces which
+  may contain `NA`s, see examples for `timeDate()`.
+
+- fixed a bug in the internal function `.formatFinCenterNum()`, which sometimes
+  was causing `timeDate()` to throw error when there were `NA` date-times.
+
+- removed the deprecated `GBBankHoliday`, use `GBSpringBankHoliday` instead.
+
+- removed the deprecated `GBMayDay`, use `GBEarlyMayBankHoliday` instead.
+
+- removed the deprecated `GBMilleniumDay`, use `specialHolidayGB(1999)` instead.
+
+- removed the deprecated `JPKeirouNOhi`, use ``JPKeirouNoHi` instead.
+
+
 # timeDate 4041.110
 
-- new `timeDate` method for `$` for extraction of components of timeDate objects
-  - e.g., for a timeDate object `td`, `td$year`, `td$month`, and `td$sec` give
-  numeric vectors containing the corresponding components. In interactive
-  sessions completion is supported, usually by hitting the <TAB> key.
+- new `timeDate` method for `$` for extraction of components of timeDate
+  objects.  For example, given a timeDate object `td`, numeric vectors
+  containing the components 'year', 'month' and 'sec' can be obtained by
+  `td$year`, `td$month`, and `td$sec`, respectively. In interactive sessions
+  completion is supported, usually by hitting the 'TAB' key.
 
-- new timeDate methods for the base R functions `quarters` and `weekdays` (they
-  return character vectors of names).
+- new` timeDate` methods for the base R functions `quarters` and `weekdays`
+  (they return character vectors of names).
 
 - new `timeDate` method for `months` returning a character vector. For now, a
   character vector will be returned only if argument 'abbreviate' is set
   explicitly (to `TRUE` or `FALSE`). If 'abbreviate' is missing, the numeric
   values are returned, see the deprecation note below.
 
-  *Deprecation Warning:* a `timeDate` method for `months` has existed for a long
-  time but it was returning a numeric vector, which is inconsistent with the
-  other methods for months in base R (they return names of months). Returning a
-  numeric vector when 'abbreviate' is missing is a temporary compromise, to
-  avoid breaking old code but this should be considered deprecated. Use
-  `td$month` to get the numbers.
+  **Deprecation Warning:** a `timeDate` method for `months` has existed for a
+  long time but it was returning a numeric vector, which is inconsistent with
+  the other methods for months in base R (they return names of
+  months). Returning a numeric vector when 'abbreviate' is missing is a
+  temporary compromise, to avoid breaking old code, but this should be
+  considered deprecated. Use `td$month` to get the numbers.
 
 - now `timeDate(character(0))` returns a 0-length "timeDate" object.  Previously
   it was returning an `NA` "timeDate" object of length 1 if argument 'format'
@@ -28,9 +76,9 @@
   length 0' along with the FinCenter, which seems better than the previous
   output for this case.
 
-- new function `InternationalWomensDay` (suggested by Alexander Bartel
-  with code), fixes R-forge issue #6855). Now included in the list
-  returned by `listHolidays`.
+- new function `InternationalWomensDay` (suggested by Alexander Bartel with
+  code), fixes R-forge issue #6855). It's also included in the list returned by
+  `listHolidays`.
 
 
 # timeDate 4032.109

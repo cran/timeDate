@@ -16,6 +16,9 @@ importFrom(stats, start, end, window, approx, na.omit, var, frequency)
 importFrom("graphics", axis.POSIXct)
 importFrom("utils", str, .DollarNames)
 
+## ## 2024-12-13 for timeInterval
+## importFrom("generics", intersect, union, setdiff, setequal, is.element)
+
 S3method("[<-",timeDate)
 S3method(as.Date,timeDate)
 S3method(as.POSIXct,timeDate)
@@ -32,7 +35,12 @@ S3method(c,timeDate)
 S3method(cut,timeDate)
 S3method(diff,timeDate)
 S3method(end,timeDate)
+
 S3method(format,timeDate)
+S3method(format,timeInterval)
+
+S3method(`!`, timeInterval)
+
 S3method(kurtosis,POSIXct)
 S3method(kurtosis,POSIXlt)
 S3method(kurtosis,data.frame)
@@ -68,8 +76,10 @@ S3method(frequency,timeDate)
 
 S3method(.DollarNames, timeDate)
 
+S3method(timeCeiling, POSIXt)
+S3method(timeCeiling, timeDate)
 
-exportClasses(timeDate)
+exportClasses(timeDate, timeInterval)
 
 exportMethods(
     "+", "-", Ops,
@@ -86,7 +96,9 @@ exportMethods(
     names,
     sample,
     show,
-    timeDate
+    timeDate,
+    timeInterval,
+    "%in_int%"
 )
 
 export(
@@ -128,11 +140,13 @@ export(
     whichFormat,
 
     earlyCloseNYSE,
-    frequency
+    frequency,
+    pasteMat,
+    timeCeiling,
+    timeInterval,
+    tiInf,
+    "%in_int%"
 )
-
-export(GBBankHoliday) # deprecated, superseded by GBSpringBankHoliday
-export(GBMayDay) # deprecated, superseded by EarlyMayBankHoliday
 
 ## begin: holidays
 export(
@@ -182,7 +196,6 @@ export(
     FRFetDeLaVictoire1945,
     GBSpringBankHoliday,
     GBEarlyMayBankHoliday,
-    GBMilleniumDay, # deprecated
     specialHolidayGB,
     GBSummerBankHoliday,
     GoodFriday,
@@ -208,8 +221,7 @@ export(
     JPGantan,
     JPGreeneryDay,
     JPHealthandSportsDay,
-    JPKeirouNOhi,  # 2023-11-27 deprecated
-    JPKeirouNoHi,  # 2023-11-27 new, replaces the above
+    JPKeirouNoHi,
     JPKenkokuKinenNoHi,
     JPKenpouKinenBi,
     JPKinrouKanshaNoHi,

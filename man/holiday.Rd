@@ -80,9 +80,9 @@ holiday(year = getRmetricsOptions("currentYear"), Holiday = "Easter")
     GBEarlyMayBankHoliday, GBSpringBankHoliday
     GBSummerBankHoliday, GBNewYearsEve.
 
-    (The deprecated GBMayDay and GBBankHoliday are still available but
-    strongly discouraged. Instead, use GBEarlyMayBankHoliday and
-    GBSpringBankHoliday, respectively)\cr
+    (GBMayDay and GBBankHoliday have been removed. Use
+    GBEarlyMayBankHoliday and GBSpringBankHoliday, respectively)
+    \cr
 
     
     \emph{DEFrankfurt - Public Holidays:} 
@@ -134,6 +134,22 @@ holiday(year = getRmetricsOptions("currentYear"), Holiday = "Easter")
     JPKinrou-kansha-no-hi, JPEmperorsBirthday,
     JPTennou-tanjyou-bi, JPTennou-tanjyou-bi. \cr
     JPMountainDay
+}
+
+\seealso{
+  \code{\link{BoxingDay}}, etc., for descriptions of the individual
+  holiday functions,
+
+  \code{\link{listHolidays}} for a list (character vector) of all
+  holidays,
+
+  \code{\link{Easter}},
+
+  \code{\link{holidayLONDON}},
+  \code{\link{holidayNERC}},
+  \code{\link{holidayNYSE}},
+  \code{\link{holidayTSX}},
+  \code{\link{holidayZURICH}} for holidays at major financial centers.
 }
 
 \examples{

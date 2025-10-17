@@ -144,7 +144,7 @@
   is inconsistent with the other methods for months in base R (they
   return names of months). Returning a numeric vector when 'abbreviate'
   is missing is a temporary compromise, to avoid breaking old code but
-  this should be considered deprecated. Use `td$month` to get the
+  this should be considered deprecated. Use \code{td$month} to get the
   numbers.
   
 }
@@ -167,7 +167,8 @@ julian(tC)[1:3]
 atoms(tC)
    
 ## months
-months(tC)
+tC$month   # recommended 1 to 12
+months(tC) # deprecated - will be changed to return month names, as base::months()
 
 weekdays(tC)
 weekdays(tC, TRUE)

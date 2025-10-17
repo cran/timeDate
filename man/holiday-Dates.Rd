@@ -41,14 +41,11 @@
 \alias{CHConfederationDay}
 \alias{CHKnabenschiessen}
 
-\alias{GBMayDay}  % deprecated
 \alias{GBEarlyMayBankHoliday}
 
-\alias{GBBankHoliday} % deprecated
 \alias{GBSpringBankHoliday}
 
 \alias{GBSummerBankHoliday}
-\alias{GBMilleniumDay} % deprecated
 
 \alias{DEAscension}
 \alias{DECorpusChristi}
@@ -112,9 +109,8 @@
 \alias{JPMarineDay}
 \alias{JPUmiNoHi}
 \alias{JPRespectForTheAgedDay}
-\alias{JPKeirouNOhi}  % 2023-11-27 deprecated, obvious mis-capitalisation
-\alias{JPKeirouNoHi}  % 2023-11-27 new, replaces the above
-\alias{JPMountainDay} % 2023-11-27 new
+\alias{JPKeirouNoHi}
+\alias{JPMountainDay}
 \alias{JPAutumnalEquinox}
 \alias{JPShuubunNoHi}
 \alias{JPHealthandSportsDay}
@@ -258,23 +254,14 @@ CHConfederationDay(year = getRmetricsOptions("currentYear"),
 CHKnabenschiessen(year = getRmetricsOptions("currentYear"), 
                   value = "timeDate", na_drop = TRUE, \dots)
 
-GBMayDay(year = getRmetricsOptions("currentYear"), value = "timeDate", 
-         na_drop = TRUE, \dots)
-
 GBEarlyMayBankHoliday(year = getRmetricsOptions("currentYear"), 
                       value = "timeDate", na_drop = TRUE, \dots)
-
-GBBankHoliday(year = getRmetricsOptions("currentYear"), 
-              value = "timeDate", na_drop = TRUE, \dots)
 
 GBSpringBankHoliday(year = getRmetricsOptions("currentYear"), 
                     value = "timeDate", na_drop = TRUE, \dots)
 
 GBSummerBankHoliday(year = getRmetricsOptions("currentYear"), 
                     value = "timeDate", na_drop = TRUE, \dots)
-
-GBMilleniumDay(year = getRmetricsOptions("currentYear"), 
-               value = "timeDate", na_drop = TRUE, \dots)
 
 DEAscension(year = getRmetricsOptions("currentYear"), 
             value = "timeDate", na_drop = TRUE, \dots)
@@ -461,9 +448,6 @@ JPUmiNoHi(year = getRmetricsOptions("currentYear"), value = "timeDate",
 JPRespectForTheAgedDay(year = getRmetricsOptions("currentYear"), 
                        value = "timeDate", na_drop = TRUE, \dots)
 
-JPKeirouNOhi(year = getRmetricsOptions("currentYear"), 
-             value = "timeDate", na_drop = TRUE, \dots)
-
 JPMountainDay(year = getRmetricsOptions("currentYear"), 
               value = "timeDate", na_drop = TRUE, \dots)
 
@@ -501,37 +485,30 @@ JPBankHolidayDec31(year = getRmetricsOptions("currentYear"),
                    value = "timeDate", na_drop = TRUE, \dots)
 
 InternationalWomensDay(year = getRmetricsOptions("currentYear"),
-                       value = "timeDate", na_drop = TRUE, ...)}
-
+                       value = "timeDate", na_drop = TRUE, ...)
+}
 
 \arguments{
 
   \item{year}{
-
-    an integer value or vector of year numbers including the
-    century. These are integers of the form \code{CCYY}, e.g.
-    \code{2000}.
-
+    an integer value or vector of year numbers (four digits, e.g.,
+    \code{2024}).
   }
 
   \item{value}{
-    
     the class of the returned value. If \code{"timeDate"}, the default,
     return a \code{"timeDate"} object, otherwise return a character
     vector.
-    
   }
-  \item{na_drop}{
 
+  \item{na_drop}{
     how to treat \code{NA}s, \code{TRUE}, \code{FALSE} or a character
     string, see section \sQuote{Details}.
-
   }
-  \item{...}{
 
+  \item{...}{
     further arguments for \code{format.timeDate}, most notably
     \code{"format"}. Ignored if \code{value = "timeDate"}.
-
   }
 }
 
@@ -539,7 +516,7 @@ InternationalWomensDay(year = getRmetricsOptions("currentYear"),
 
   This help page discusses the public and ecclesiastical holidays per
   se. Some holidays fall by definition on a working day or a particular
-  day of the week. For holidays that fall on weekends many countries
+  day of the week. For holidays that fall on weekends, many countries
   have rules to declare a close by weekday a holiday. The functions here
   do not consider such issues but they are handled by the
   \code{holidayXXX} functions (e.g., \code{holidayLONDON}), see their
@@ -575,8 +552,7 @@ InternationalWomensDay(year = getRmetricsOptions("currentYear"),
   act as if \code{na_drop} is a character string.
 
   
-  The deprecated \code{GBMayDay} and \code{GBBankHoliday} are still
-  available but strongly discouraged. Instead, use
+  \code{GBMayDay} and \code{GBBankHoliday} have been removed. Use
   \code{GBEarlyMayBankHoliday} and \code{GBSpringBankHoliday},
   respectively.
 
@@ -594,8 +570,23 @@ InternationalWomensDay(year = getRmetricsOptions("currentYear"),
   the date of the requested holiday as a \code{"timeDate"} object
 }
 
+\seealso{
+  \code{\link{holiday}} alternative to calling directly individual
+  holiday functions (takes one or more holiday functions as argument),
+  
+  \code{\link{listHolidays}} for a list (character vector) of all
+  holidays,
+
+  \code{\link{Easter}},
+
+  \code{\link{holidayLONDON}},
+  \code{\link{holidayNERC}},
+  \code{\link{holidayNYSE}},
+  \code{\link{holidayTSX}},
+  \code{\link{holidayZURICH}} for holidays at major financial centers.
+}
+
 \examples{
-## CHSechselaeuten -
 # Sechselaeuten a half Day Bank Holiday in Switzerland
 CHSechselaeuten(2000:2010)
 CHSechselaeuten(getRmetricsOptions("currentYear"))
